@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_dll|x64">
+      <Configuration>Debug_dll</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_dll|x64">
+      <Configuration>Release_dll</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3A64B005-23CD-4B93-87CC-A9B969306A76}</ProjectGuid>
+    <RootNamespace>lss_2</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_dll|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_dll|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 11.3.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_dll|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_dll|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\my_c_files\lss_2\lss_2;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_dll|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>lss2_debug</TargetName>
+    <IncludePath>D:\my_c_files\lss_2\lss_2;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_dll|x64'">
+    <TargetName>lss2_release</TargetName>
+    <IncludePath>D:\my_c_files\lss_2\lss_2;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>D:\my_c_files\lss_2\lss_2;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;WIN64;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;LSS_API_EMPTY;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;cusolver.lib;cusparse.lib;cublas.lib;cublasLt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CudaCompile>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_dll|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;WIN64;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;LSS_API_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;cusolver.lib;cusparse.lib;cublas.lib;cublasLt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CudaCompile>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
+    <PostBuildEvent>
+      <Command>echo Copying lss2_debug.dll file to lib folder...
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)lib\$(TargetName).dll"
+echo Copying lss2_debug.lib file to lib folder...
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;WIN64;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;LSS_API_EMPTY;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;cusolver.lib;cusparse.lib;cublas.lib;cublasLt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CudaCompile>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_dll|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;WIN64;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;LSS_API_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;cusolver.lib;cusparse.lib;cublas.lib;cublasLt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CudaCompile>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
+    <PostBuildEvent>
+      <Command>echo Copying lss2_release.dll file to lib folder...
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)lib\$(TargetName).dll"
+echo Copying lss2_release.lib file to lib folder...
+copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CudaCompile Include="dense_solvers\lss_dense_solvers_cuda.cu" />
+    <CudaCompile Include="main.cu">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_dll|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_dll|x64'">true</ExcludedFromBuild>
+    </CudaCompile>
+    <CudaCompile Include="pde_solvers\1d\heat_type\explicit_schemes\lss_heat_euler_cuda_scheme.cu" />
+    <CudaCompile Include="pde_solvers\1d\heat_type\lss_heat_equation_explicit_kernel.cu" />
+    <CudaCompile Include="pde_solvers\1d\heat_type\solver_method\lss_heat_euler_cuda_solver_method.cu" />
+    <CudaCompile Include="pde_solvers\1d\wave_type\explicit_schemes\lss_wave_euler_cuda_scheme.cu" />
+    <CudaCompile Include="pde_solvers\1d\wave_type\solver_method\lss_wave_euler_cuda_solver_method.cu" />
+    <CudaCompile Include="sparse_solvers\core\cuda_solver\lss_core_cuda_solver.cu" />
+    <CudaCompile Include="sparse_solvers\core\cuda_sor_solver\lss_core_sor_solver_cuda.cu" />
+    <CudaCompile Include="sparse_solvers\core\cuda_sor_solver\lss_sor_solver_core.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="boundaries\lss_boundary.cpp" />
+    <ClCompile Include="boundaries\lss_dirichlet_boundary.cpp" />
+    <ClCompile Include="boundaries\lss_neumann_boundary.cpp" />
+    <ClCompile Include="boundaries\lss_robin_boundary.cpp" />
+    <ClCompile Include="common\lss_print.cpp" />
+    <ClCompile Include="common\lss_range.cpp" />
+    <ClCompile Include="common\lss_utility.cpp" />
+    <ClCompile Include="common\lss_xml.cpp" />
+    <ClCompile Include="containers\lss_matrix_2d.cpp" />
+    <ClCompile Include="containers\lss_matrix_3d.cpp" />
+    <ClCompile Include="containers\lss_flat_matrix.cpp" />
+    <ClCompile Include="dense_solvers\lss_dense_solvers_policy.cpp" />
+    <ClCompile Include="discretization\lss_discretization.cpp" />
+    <ClCompile Include="discretization\lss_discretization_config.cpp" />
+    <ClCompile Include="discretization\lss_grid.cpp" />
+    <ClCompile Include="discretization\lss_grid_config.cpp" />
+    <ClCompile Include="discretization\lss_grid_config_hints.cpp" />
+    <ClCompile Include="discretization\lss_grid_transform_config.cpp" />
+    <ClCompile Include="ode_solvers\lss_ode_data_config.cpp" />
+    <ClCompile Include="ode_solvers\lss_ode_discretization_config.cpp" />
+    <ClCompile Include="ode_solvers\lss_ode_solver_config.cpp" />
+    <ClCompile Include="ode_solvers\second_degree\implicit_coefficients\lss_ode_implicit_coefficients.cpp" />
+    <ClCompile Include="ode_solvers\second_degree\lss_ode_equation.cpp" />
+    <ClCompile Include="ode_solvers\second_degree\lss_ode_equation_implicit_kernel.cpp" />
+    <ClCompile Include="ode_solvers\second_degree\solver_method\lss_ode_implicit_solver_method.cpp" />
+    <ClCompile Include="ode_solvers\transformation\lss_ode_data_transform.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\explicit_coefficients\lss_heat_barakat_clark_coefficients.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\explicit_coefficients\lss_heat_euler_coefficients.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\explicit_coefficients\lss_heat_saulyev_coefficients.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\explicit_schemes\lss_heat_barakat_clark_scheme.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\explicit_schemes\lss_heat_euler_scheme.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\explicit_schemes\lss_heat_saulyev_scheme.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\implicit_coefficients\lss_heat_coefficients.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\lss_heat_equation.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\lss_heat_equation_implicit_kernel.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\solver_method\lss_heat_barakat_clark_solver_method.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\solver_method\lss_heat_euler_solver_method.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\solver_method\lss_heat_explicit_solver_method.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\solver_method\lss_heat_implicit_solver_method.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\solver_method\lss_heat_saulyev_solver_method.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\time_loop\lss_explicit_time_loop.cpp" />
+    <ClCompile Include="pde_solvers\1d\heat_type\time_loop\lss_implicit_time_loop.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\explicit_coefficients\lss_wave_explicit_coefficients.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\explicit_schemes\lss_wave_euler_scheme.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\implicit_coefficients\lss_wave_implicit_coefficients.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\lss_wave_equation.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\lss_wave_equation_explicit_kernel.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\lss_wave_equation_implicit_kernel.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\solver_method\lss_wave_euler_solver_method.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\solver_method\lss_wave_explicit_solver_method.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\solver_method\lss_wave_implicit_solver_method.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\time_loop\lss_wave_explicit_time_loop.cpp" />
+    <ClCompile Include="pde_solvers\1d\wave_type\time_loop\lss_wave_implicit_time_loop.cpp" />
+    <ClCompile Include="pde_solvers\lss_heat_data_config.cpp" />
+    <ClCompile Include="pde_solvers\lss_heat_solver_config.cpp" />
+    <ClCompile Include="pde_solvers\lss_implicit_pde_scheme.cpp" />
+    <ClCompile Include="pde_solvers\lss_pde_discretization_config.cpp" />
+    <ClCompile Include="pde_solvers\lss_pde_solver_config.cpp" />
+    <ClCompile Include="pde_solvers\lss_splitting_method_config.cpp" />
+    <ClCompile Include="pde_solvers\lss_wave_data_config.cpp" />
+    <ClCompile Include="pde_solvers\lss_wave_solver_config.cpp" />
+    <ClCompile Include="pde_solvers\transformation\lss_heat_data_transform.cpp" />
+    <ClCompile Include="pde_solvers\transformation\lss_wave_data_transform.cpp" />
+    <ClCompile Include="sparse_solvers\core\cuda_solver\lss_core_cuda_solver_policy.cpp" />
+    <ClCompile Include="sparse_solvers\core\sor_solver\lss_core_sor_solver.cpp" />
+    <ClCompile Include="sparse_solvers\pentadiagonal\karawia_solver\lss_karawia_boundary.cpp" />
+    <ClCompile Include="sparse_solvers\pentadiagonal\karawia_solver\lss_karawia_solver.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\cuda_solver\lss_cuda_boundary.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\cuda_solver\lss_cuda_solver.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\double_sweep_solver\lss_double_sweep_boundary.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\double_sweep_solver\lss_double_sweep_solver.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\lss_tridiagonal_solver.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\sor_solver\lss_sor_boundary.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\sor_solver\lss_sor_solver.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\sor_solver_cuda\lss_sor_cuda_boundary.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\sor_solver_cuda\lss_sor_solver_cuda.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\thomas_lu_solver\lss_thomas_lu_boundary.cpp" />
+    <ClCompile Include="sparse_solvers\tridiagonal\thomas_lu_solver\lss_thomas_lu_solver.cpp" />
+    <ClCompile Include="transformation\lss_boundary_transform.cpp" />
+    <ClCompile Include="unit_tests\containers\lss_matrix_2d_t.cpp" />
+    <ClCompile Include="unit_tests\containers\lss_matrix_3d_t.cpp" />
+    <ClCompile Include="unit_tests\ode_solvers\second_degree\lss_odes_2_degree_t.cpp" />
+    <ClCompile Include="unit_tests\pde_solvers\1d\lss_advection_equation_t.cpp" />
+    <ClCompile Include="unit_tests\pde_solvers\1d\lss_black_scholes_equation_t.cpp" />
+    <ClCompile Include="unit_tests\pde_solvers\1d\lss_pure_heat_equation_t.cpp" />
+    <ClCompile Include="unit_tests\pde_solvers\1d\lss_pure_wave_equation_t.cpp" />
+    <ClCompile Include="unit_tests\sparse_solvers\lss_core_cuda_solver_t.cpp" />
+    <ClCompile Include="unit_tests\sparse_solvers\lss_core_sor_solver_cuda_t.cpp" />
+    <ClCompile Include="unit_tests\sparse_solvers\lss_core_sor_solver_t.cpp" />
+    <ClCompile Include="unit_tests\sparse_solvers\lss_cuda_solver_t.cpp" />
+    <ClCompile Include="unit_tests\sparse_solvers\lss_double_sweep_solver_t.cpp" />
+    <ClCompile Include="unit_tests\sparse_solvers\lss_karawia_solver_t.cpp" />
+    <ClCompile Include="unit_tests\sparse_solvers\lss_sor_solver_cuda_t.cpp" />
+    <ClCompile Include="unit_tests\sparse_solvers\lss_sor_solver_t.cpp" />
+    <ClCompile Include="unit_tests\sparse_solvers\lss_thomas_lu_solver_t.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="boundaries\lss_boundary.hpp" />
+    <ClInclude Include="boundaries\lss_dirichlet_boundary.hpp" />
+    <ClInclude Include="boundaries\lss_neumann_boundary.hpp" />
+    <ClInclude Include="boundaries\lss_robin_boundary.hpp" />
+    <ClInclude Include="common\lss_enumerations.hpp" />
+    <ClInclude Include="common\lss_helpers.hpp" />
+    <ClInclude Include="common\lss_macros.hpp" />
+    <ClInclude Include="common\lss_print.hpp" />
+    <ClInclude Include="common\lss_range.hpp" />
+    <ClInclude Include="common\lss_utility.hpp" />
+    <ClInclude Include="common\lss_xml.hpp" />
+    <ClInclude Include="containers\lss_matrix_2d.hpp" />
+    <ClInclude Include="containers\lss_matrix_3d.hpp" />
+    <ClInclude Include="containers\lss_flat_matrix.hpp" />
+    <ClInclude Include="dense_solvers\lss_dense_solvers_cuda.hpp" />
+    <ClInclude Include="dense_solvers\lss_dense_solvers_policy.hpp" />
+    <ClInclude Include="discretization\lss_discretization.hpp" />
+    <ClInclude Include="discretization\lss_discretization_config.hpp" />
+    <ClInclude Include="discretization\lss_grid.hpp" />
+    <ClInclude Include="discretization\lss_grid_config.hpp" />
+    <ClInclude Include="discretization\lss_grid_config_hints.hpp" />
+    <ClInclude Include="discretization\lss_grid_transform_config.hpp" />
+    <ClInclude Include="ode_solvers\lss_ode_data_config.hpp" />
+    <ClInclude Include="ode_solvers\lss_ode_discretization_config.hpp" />
+    <ClInclude Include="ode_solvers\lss_ode_solver_config.hpp" />
+    <ClInclude Include="ode_solvers\second_degree\implicit_coefficients\lss_ode_implicit_coefficients.hpp" />
+    <ClInclude Include="ode_solvers\second_degree\lss_ode_equation.hpp" />
+    <ClInclude Include="ode_solvers\second_degree\lss_ode_equation_implicit_kernel.hpp" />
+    <ClInclude Include="ode_solvers\second_degree\solver_method\lss_ode_implicit_solver_method.hpp" />
+    <ClInclude Include="ode_solvers\transformation\lss_ode_data_transform.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\explicit_coefficients\lss_heat_barakat_clark_coefficients.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\explicit_coefficients\lss_heat_euler_coefficients.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\explicit_coefficients\lss_heat_saulyev_coefficients.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\explicit_schemes\lss_heat_barakat_clark_scheme.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\explicit_schemes\lss_heat_euler_cuda_scheme.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\explicit_schemes\lss_heat_euler_scheme.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\explicit_schemes\lss_heat_saulyev_scheme.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\implicit_coefficients\lss_heat_coefficients.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\lss_heat_equation.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\lss_heat_equation_explicit_kernel.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\lss_heat_equation_implicit_kernel.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\solver_method\lss_heat_barakat_clark_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\solver_method\lss_heat_euler_cuda_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\solver_method\lss_heat_euler_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\solver_method\lss_heat_explicit_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\solver_method\lss_heat_implicit_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\solver_method\lss_heat_saulyev_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\time_loop\lss_explicit_time_loop.hpp" />
+    <ClInclude Include="pde_solvers\1d\heat_type\time_loop\lss_implicit_time_loop.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\explicit_coefficients\lss_wave_explicit_coefficients.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\explicit_schemes\lss_wave_euler_cuda_scheme.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\explicit_schemes\lss_wave_euler_scheme.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\implicit_coefficients\lss_wave_implicit_coefficients.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\lss_wave_equation.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\lss_wave_equation_explicit_kernel.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\lss_wave_equation_implicit_kernel.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\solver_method\lss_wave_euler_cuda_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\solver_method\lss_wave_euler_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\solver_method\lss_wave_explicit_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\solver_method\lss_wave_implicit_solver_method.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\time_loop\lss_wave_explicit_time_loop.hpp" />
+    <ClInclude Include="pde_solvers\1d\wave_type\time_loop\lss_wave_implicit_time_loop.hpp" />
+    <ClInclude Include="pde_solvers\lss_heat_data_config.hpp" />
+    <ClInclude Include="pde_solvers\lss_heat_solver_config.hpp" />
+    <ClInclude Include="pde_solvers\lss_implicit_pde_scheme.hpp" />
+    <ClInclude Include="pde_solvers\lss_pde_discretization_config.hpp" />
+    <ClInclude Include="pde_solvers\lss_pde_solver_config.hpp" />
+    <ClInclude Include="pde_solvers\lss_splitting_method_config.hpp" />
+    <ClInclude Include="pde_solvers\lss_wave_data_config.hpp" />
+    <ClInclude Include="pde_solvers\lss_wave_solver_config.hpp" />
+    <ClInclude Include="pde_solvers\transformation\lss_heat_data_transform.hpp" />
+    <ClInclude Include="pde_solvers\transformation\lss_wave_data_transform.hpp" />
+    <ClInclude Include="sparse_solvers\core\cuda_solver\lss_core_cuda_solver.hpp" />
+    <ClInclude Include="sparse_solvers\core\cuda_solver\lss_core_cuda_solver_policy.hpp" />
+    <ClInclude Include="sparse_solvers\core\cuda_sor_solver\lss_core_sor_solver_cuda.hpp" />
+    <ClInclude Include="sparse_solvers\core\cuda_sor_solver\lss_core_sor_solver_kernels.hpp" />
+    <ClInclude Include="sparse_solvers\core\cuda_sor_solver\lss_sor_solver_core.hpp" />
+    <ClInclude Include="sparse_solvers\core\sor_solver\lss_core_sor_solver.hpp" />
+    <ClInclude Include="sparse_solvers\core\traits\lss_sor_solver_traits.hpp" />
+    <ClInclude Include="sparse_solvers\pentadiagonal\karawia_solver\lss_karawia_boundary.hpp" />
+    <ClInclude Include="sparse_solvers\pentadiagonal\karawia_solver\lss_karawia_solver.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\cuda_solver\lss_cuda_boundary.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\cuda_solver\lss_cuda_solver.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\double_sweep_solver\lss_double_sweep_boundary.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\double_sweep_solver\lss_double_sweep_solver.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\lss_tridiagonal_solver.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\sor_solver\lss_sor_boundary.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\sor_solver\lss_sor_solver.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\sor_solver_cuda\lss_sor_cuda_boundary.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\sor_solver_cuda\lss_sor_solver_cuda.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\thomas_lu_solver\lss_thomas_lu_boundary.hpp" />
+    <ClInclude Include="sparse_solvers\tridiagonal\thomas_lu_solver\lss_thomas_lu_solver.hpp" />
+    <ClInclude Include="transformation\lss_boundary_transform.hpp" />
+    <ClInclude Include="unit_tests\containers\lss_matrix_2d_t.hpp" />
+    <ClInclude Include="unit_tests\containers\lss_matrix_3d_t.hpp" />
+    <ClInclude Include="unit_tests\ode_solvers\second_degree\lss_odes_2_degree_t.hpp" />
+    <ClInclude Include="unit_tests\pde_solvers\1d\lss_advection_equation_t.hpp" />
+    <ClInclude Include="unit_tests\pde_solvers\1d\lss_black_scholes_equation_t.hpp" />
+    <ClInclude Include="unit_tests\pde_solvers\1d\lss_pure_heat_equation_t.hpp" />
+    <ClInclude Include="unit_tests\pde_solvers\1d\lss_pure_wave_equation_t.hpp" />
+    <ClInclude Include="unit_tests\sparse_solvers\lss_core_cuda_solver_t.hpp" />
+    <ClInclude Include="unit_tests\sparse_solvers\lss_core_sor_solver_cuda_t.hpp" />
+    <ClInclude Include="unit_tests\sparse_solvers\lss_core_sor_solver_t.hpp" />
+    <ClInclude Include="unit_tests\sparse_solvers\lss_cuda_solver_t.hpp" />
+    <ClInclude Include="unit_tests\sparse_solvers\lss_double_sweep_solver_t.hpp" />
+    <ClInclude Include="unit_tests\sparse_solvers\lss_karawia_solver_t.hpp" />
+    <ClInclude Include="unit_tests\sparse_solvers\lss_sor_solver_cuda_t.hpp" />
+    <ClInclude Include="unit_tests\sparse_solvers\lss_sor_solver_t.hpp" />
+    <ClInclude Include="unit_tests\sparse_solvers\lss_thomas_lu_solver_t.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 11.3.targets" />
+  </ImportGroup>
+</Project>
