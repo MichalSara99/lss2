@@ -15,6 +15,7 @@ using lss_dense_solvers_policy::dense_solver_cholesky;
 using lss_dense_solvers_policy::dense_solver_lu;
 using lss_dense_solvers_policy::dense_solver_qr;
 using lss_helpers::real_dense_solver_cuda_helpers;
+using lss_utility::copy;
 
 real_dense_solver_cuda::real_dense_solver_cuda()
 {
@@ -29,10 +30,9 @@ real_dense_solver_cuda ::~real_dense_solver_cuda()
 {
 }
 
-void real_dense_solver_cuda::set_rhs(std::vector<double> const &rhs)
-{
+void real_dense_solver_cuda::set_rhs(container_t const &rhs) {
     LSS_ASSERT(rhs.size() == matrix_rows_, " Right-hand side vector of the system has incorrect size.");
-    thrust::copy(rhs.begin(), rhs.end(), h_rhs_values_.begin());
+    copy(h_rhs_values_,rhs);
 }
 
 void real_dense_solver_cuda::set_rhs_value(std::size_t idx, double value)
@@ -75,8 +75,8 @@ void real_dense_solver_cuda::initialize(int matrix_rows, int matrix_columns)
     h_rhs_values_.resize(matrix_rows_);
 }
 
-void real_dense_solver_cuda::solve(std::vector<double> &container, factorization_enum factorization)
-{
+void real_dense_solver_cuda::solve(container_t &container,
+                                   factorization_enum factorization) {
     populate();
 
     // get the dimensions:
@@ -118,7 +118,8 @@ void real_dense_solver_cuda::solve(std::vector<double> &container, factorization
     {
         throw std::exception("factorization not known");
     }
-    thrust::copy(d_solution.begin(), d_solution.end(), container.begin());
+    thrust::host_vector<double> h_solution(d_solution);
+    copy(container,h_solution);
 }
 
 container_t const real_dense_solver_cuda::solve(
@@ -167,9 +168,10 @@ container_t const real_dense_solver_cuda::solve(
     {
         throw std::exception("factorization not known");
     }
-    container_t solution(h_solution.size());
-    thrust::copy(d_solution.begin(), d_solution.end(), solution.begin());
 
+    h_solution = d_solution;
+    container_t solution(h_solution.size());
+    copy(solution, h_solution);
     return solution;
 }
 

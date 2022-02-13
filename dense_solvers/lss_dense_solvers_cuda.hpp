@@ -54,13 +54,13 @@ class real_dense_solver_cuda
 
     void initialize(int matrix_rows, int matrix_columns);
 
-    void set_rhs(std::vector<double> const &rhs);
+    void set_rhs(container_t const &rhs);
 
     void set_rhs_value(std::size_t idx, double value);
 
     void set_flat_dense_matrix(flat_matrix matrix);
 
-    void solve(std::vector<double> &container, factorization_enum factorization = factorization_enum::QRMethod);
+    void solve(container_t &container, factorization_enum factorization = factorization_enum::QRMethod);
 
     container_t const solve(factorization_enum factorization = factorization_enum::QRMethod);
 };
