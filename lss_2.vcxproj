@@ -283,6 +283,7 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     <ClCompile Include="transformation\lss_boundary_transform.cpp" />
     <ClCompile Include="unit_tests\common\lss_heston_price_t.cpp" />
     <ClCompile Include="unit_tests\common\lss_numerical_integration_t.cpp" />
+    <ClCompile Include="unit_tests\common\lss_xml_t.cpp" />
     <ClCompile Include="unit_tests\containers\lss_matrix_2d_t.cpp" />
     <ClCompile Include="unit_tests\containers\lss_matrix_3d_t.cpp" />
     <ClCompile Include="unit_tests\ode_solvers\second_degree\lss_odes_2_degree_t.cpp" />
@@ -417,6 +418,7 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     <ClInclude Include="transformation\lss_boundary_transform.hpp" />
     <ClInclude Include="unit_tests\common\lss_heston_price_t.hpp" />
     <ClInclude Include="unit_tests\common\lss_numerical_integration_t.hpp" />
+    <ClInclude Include="unit_tests\common\lss_xml_t.hpp" />
     <ClInclude Include="unit_tests\containers\lss_matrix_2d_t.hpp" />
     <ClInclude Include="unit_tests\containers\lss_matrix_3d_t.hpp" />
     <ClInclude Include="unit_tests\ode_solvers\second_degree\lss_odes_2_degree_t.hpp" />

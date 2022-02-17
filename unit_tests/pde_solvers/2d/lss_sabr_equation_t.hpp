@@ -9,8 +9,8 @@
 // ========================== IMPLICIT SOLVERS ===============================
 // ===========================================================================
 
-void impl_sabr_equation_double_sweep_solver_crank_nicolson();
+extern void impl_sabr_equation_double_sweep_solver_crank_nicolson();
 
-void test_impl_sabr_equation_double_sweep_solver();
+extern void test_impl_sabr_equation_double_sweep_solver();
 
 #endif //_LSS_SABR_EQUATION_T_HPP_

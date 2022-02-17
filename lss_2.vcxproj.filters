@@ -564,6 +564,9 @@
     <ClCompile Include="unit_tests\pde_solvers\2d\lss_sabr_equation_t.cpp">
       <Filter>unit_tests\pde_solvers\2d</Filter>
     </ClCompile>
+    <ClCompile Include="unit_tests\common\lss_xml_t.cpp">
+      <Filter>unit_tests\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boundaries\lss_boundary.hpp">
@@ -961,6 +964,9 @@
     </ClInclude>
     <ClInclude Include="unit_tests\pde_solvers\2d\lss_sabr_equation_t.hpp">
       <Filter>unit_tests\pde_solvers\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="unit_tests\common\lss_xml_t.hpp">
+      <Filter>unit_tests\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 // TESTS FOR UTILITY:
 #include"unit_tests/common/lss_numerical_integration_t.hpp"
 #include"unit_tests/common/lss_heston_price_t.hpp"
+#include"unit_tests/common/lss_xml_t.hpp"
 // TESTS FOR CONTAINERS:
 #include"unit_tests/containers/lss_matrix_2d_t.hpp"
 #include"unit_tests/containers/lss_matrix_3d_t.hpp"
@@ -190,8 +191,32 @@ int main()
   // ================ lss_heston_equation_t ===============
   // ======================================================
   // test_impl_sabr_equation_double_sweep_solver();
+  //
+  // ======================================================
+  // ===================== lss_xml_t ======================
+  // ======================================================
+  // test_impl_simple_ode_thomes_lu_qr_xml();
+  // test_impl_bs_thomas_lu_crv_xml();
+  // test_impl_bs_thomas_lu_srf_xml();
+  // test_impl_ph_dirichlet_bvp_device_qr_srf_xml();
+  // test_expl_ph_neumann_bvp_euler_srf_xml();
+  // test_impl_adv_thomas_lu_srf_xml();      
+  // test_impl_pw_dirichlet_bvp_cuda_device_qr_srf_xml();
+  // test_impl_w_dirichlet_bvp_host_lu_srf_xml();
+  // test_impl_w_bvp_host_dss_srf_xml();
+  // test_impl_pw_neumann_bvp_cuda_device_qr_srf_xml();
+  // test_impl_heston_cuda_qr_cn_dr_srf_xml();
+  // test_impl_heston_thomas_lu_cn_srf_xml();
+  // test_impl_sabr_double_sweep_cn_srf_xml();
+  // test_impl_heston_thomas_lu_dr_cn_srf_xml();
+  // test_impl_heston_dss_cs_cn_srf_xml();
+  // test_impl_heston_thomas_lu_mcs_cn_srf_xml();
+  // test_impl_heston_thomas_lu_hw_cn_srf_xml();
+  // test_expl_heston_host_euler_srf_xml();
+  // test_expl_heston_device_euler_srf_xml();
+  // test_expl_sabr_host_euler_srf_xml();
+  // test_expl_sabr_device_euler_srf_xml();
 
-        
     std::cin.get();
     std::cin.get();
     return 0;
