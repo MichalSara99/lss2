@@ -15,6 +15,7 @@ using lss_boundary::dirichlet_boundary_2d;
 using lss_boundary::neumann_boundary_2d;
 using lss_grids::grid_config_2d;
 using lss_grids::grid_transform_config_2d;
+using d_2d = discretization_2d;
 
 namespace two_dimensional
 {
@@ -91,7 +92,7 @@ heston_equation ::~heston_equation()
 {
 }
 
-void heston_equation::solve(container_2d<by_enum::Row> &solution)
+void heston_equation::solve(matrix_2d &solution)
 {
     LSS_ASSERT((solution.rows()) > 0 && (solution.columns() > 0), "The input solution container must be initialized");
 
@@ -113,9 +114,9 @@ void heston_equation::solve(container_2d<by_enum::Row> &solution)
     auto const &ver_boundary_ptr = heston_boundary_->vertical_upper();
     auto const &hor_boundary_pair_ptr = heston_boundary_->horizontal_pair();
     // create container to carry previous solution:
-    container_2d<by_enum::Row> prev_sol(space_size_x, space_size_y, double{});
+    matrix_2d prev_sol(space_size_x, space_size_y, double{});
     // create container to carry next solution:
-    container_2d<by_enum::Row> next_sol(space_size_x, space_size_y, double{});
+    matrix_2d next_sol(space_size_x, space_size_y, double{});
     // discretize initial condition
     d_2d::of_function(grid_cfg, heat_data_trans_cfg_->initial_condition(), prev_sol);
     // get heat_source:
@@ -205,7 +206,7 @@ void heston_equation::solve(container_2d<by_enum::Row> &solution)
     }
 }
 
-void heston_equation::solve(container_3d<by_enum::Row> &solutions)
+void heston_equation::solve(matrix_3d &solutions)
 {
     throw std::exception("Not implemented.");
 }
@@ -266,7 +267,7 @@ heston_equation::~heston_equation()
 {
 }
 
-void heston_equation::solve(container_2d<by_enum::Row> &solution)
+void heston_equation::solve(matrix_2d &solution)
 {
     LSS_ASSERT((solution.rows()) > 0 && (solution.columns() > 0), "The input solution container must be initialized");
 
@@ -288,9 +289,9 @@ void heston_equation::solve(container_2d<by_enum::Row> &solution)
     auto const &ver_boundary_ptr = heston_boundary_->vertical_upper();
     auto const &hor_boundary_pair_ptr = heston_boundary_->horizontal_pair();
     // create container to carry previous solution:
-    container_2d<by_enum::Row> prev_sol(space_size_x, space_size_y, double{});
+    matrix_2d prev_sol(space_size_x, space_size_y, double{});
     // create container to carry next solution:
-    container_2d<by_enum::Row> next_sol(space_size_x, space_size_y, double{});
+    matrix_2d next_sol(space_size_x, space_size_y, double{});
     // discretize initial condition
     d_2d::of_function(grid_cfg, heat_data_trans_cfg_->initial_condition(), prev_sol);
     // get heat_source:
@@ -320,7 +321,7 @@ void heston_equation::solve(container_2d<by_enum::Row> &solution)
     }
 }
 
-void heston_equation::solve(container_3d<by_enum::Row> &solutions)
+void heston_equation::solve(matrix_3d &solutions)
 {
     throw std::exception("Not implemented.");
 }

@@ -12,6 +12,7 @@
 #if !defined(_LSS_UTILITY_HPP_)
 #define _LSS_UTILITY_HPP_
 
+#include <complex>
 #include <memory>
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
@@ -36,7 +37,7 @@ void copy(thrust::host_vector<double> &dst, container_t const &src);
 **/
 static constexpr double pi()
 {
-    return 3.14159265358979;
+    return 3.14159265358979323846264338327950288;
 }
 
 /**
@@ -114,6 +115,89 @@ struct black_scholes_exact
         @retval
     **/
     double put(double spot, double time_to_maturity) const;
+};
+
+/**
+    @brief  Numerical integration method
+    @param  x - independent points
+    @param  y - integrand points
+    @retval  value of the integral
+**/
+double trapezoidal_method(container_t const &x, container_t const &y);
+
+/**
+    @struct heston_exact
+    @brief represents exact Heston formula
+**/
+struct heston_exact
+{
+  private:
+    double time_;
+    double strike_;
+    double maturity_;
+    double rate_;
+    double kappa_;
+    double theta_;
+    double vol_;
+    double rho_;
+    double lambda_;
+    std::function<double(std::complex<double>, double, double, double, double, double, double, double, double)>
+        integrand_;
+
+    void init_integrand();
+    void core(double spot, double vol, double time, container_t &x, container_t &y) const;
+
+  public:
+    /**
+        @brief heston_exact object constructor
+        @param time - value time
+        @param strike - strike value
+        @param rate - rate value
+        @param lambda - risk-aversion parameter
+        @param kappa - mean-reversion rate for volatility
+        @param theta - long-run volatility
+        @param vol_vol - volatility of volatility
+        @param rho - price - volatility correlation
+        @param maturity - maturity
+    **/
+    explicit heston_exact(double time, double strike, double rate, double lambda, double kappa, double theta,
+                          double vol_vol, double rho, double maturity);
+
+    ~heston_exact();
+
+    /**
+        @brief  value of call
+        @param  spot - spot value
+        @param  vol - vol value
+        @retval
+    **/
+    double call(double spot, double vol) const;
+
+    /**
+        @brief  value of call
+        @param  spot - spot value
+        @param  vol - vol value
+        @param  time_to_maturity  - time to maturity
+        @retval
+    **/
+    double call(double spot, double vol, double time_to_maturity) const;
+
+    /**
+        @brief  value of put
+        @param  spot - spot value
+        @param  vol - vol value
+        @retval
+    **/
+    double put(double spot, double vol) const;
+
+    /**
+        @brief  value of put
+        @param  spot - spot value
+        @param  vol - vol value
+        @param  time_to_maturity - time to maturity
+        @retval
+    **/
+    double put(double spot, double vol, double time_to_maturity) const;
 };
 
 } // namespace lss_utility

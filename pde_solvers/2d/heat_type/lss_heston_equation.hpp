@@ -1,3 +1,14 @@
+/**
+
+    @file      lss_heston_equation.hpp
+    @brief     Heston equation type
+    @details   ~
+    @author    Michal Sara
+    @date      14.02.2022
+    @copyright © Michal Sara, 2022. All right reserved.
+
+**/
+#pragma once
 #if !defined(_LSS_HESTON_EQUATION_HPP_)
 #define _LSS_HESTON_EQUATION_HPP_
 
@@ -7,8 +18,8 @@
 #include "../../../boundaries/lss_boundary.hpp"
 #include "../../../common/lss_enumerations.hpp"
 #include "../../../common/lss_macros.hpp"
-#include "../../../containers/lss_container_2d.hpp"
-#include "../../../containers/lss_container_3d.hpp"
+#include "../../../containers/lss_matrix_2d.hpp"
+#include "../../../containers/lss_matrix_3d.hpp"
 #include "../../../discretization/lss_discretization.hpp"
 #include "../../../discretization/lss_grid_config_hints.hpp"
 #include "../../../discretization/lss_grid_transform_config.hpp"
@@ -26,53 +37,53 @@ namespace two_dimensional
 {
 using lss_boundary::boundary_2d_pair;
 using lss_boundary::boundary_2d_ptr;
-using lss_containers::container_2d;
-using lss_containers::container_3d;
-using lss_enumerations::by_enum;
+using lss_containers::matrix_2d;
+using lss_containers::matrix_3d;
 using lss_enumerations::grid_enum;
 using lss_grids::grid_config_hints_2d_ptr;
 using lss_grids::grid_transform_config_2d_ptr;
 
-using d_2d = discretization_2d<std::vector, std::allocator<double>>;
-
 namespace implicit_solvers
 {
 
-/*!
-============================================================================
-Represents general variable coefficient Heston type equation
+/**
 
-u_t = a(t,x,y)*u_xx + b(t,x,y)*u_yy + c(t,x,y)*u_xy + d(t,x,y)*u_x + e(t,x,y)*u_y +
-        f(t,x,y)*u + F(t,x,y)
+    @class   heston_equation
+    @brief   Represents general variable coefficient Heston type equation
+    @details
 
-t > 0, x_1 < x < x_2, y_1 < y < y_2
+            u_t = a(t,x,y)*u_xx + b(t,x,y)*u_yy + c(t,x,y)*u_xy + d(t,x,y)*u_x +
+                 + e(t,x,y)*u_y + f(t,x,y)*u + F(t,x,y)
 
-with initial condition:
+            t > 0, x_1 < x < x_2, y_1 < y < y_2
 
-u(0,x,y) = G(x,y)
+            with initial condition:
 
-or terminal condition:
+            u(0,x,y) = G(x,y)
 
-u(T,x,y) = G(x,y)
+            or terminal condition:
 
-horizontal_boundary_pair = S = (S_1,S_2) boundary
+            u(T,x,y) = G(x,y)
 
-             vol (Y)
-        ________________
-        |S_1,S_1,S_1,S_1|
-        |               |
-        |               |
-S (X)   |               |
-        |               |
-        |               |
-        |               |
-        |               |
-        |S_2,S_2,S_2,S_2|
-        |_______________|
+            horizontal_boundary_pair = S = (S_1,S_2) boundary
 
-// ============================================================================
-*/
+                             vol (Y)
+                        ________________
+                        |S_1,S_1,S_1,S_1|
+                        |               |
+                        |               |
+                S (X)   |               |
+                        |               |
+                        |               |
+                        |               |
+                        |               |
+                        |S_2,S_2,S_2,S_2|
+                        |_______________|
 
+
+
+
+**/
 class heston_equation
 {
 
@@ -108,18 +119,17 @@ class heston_equation
     heston_equation &operator=(heston_equation &&) = delete;
 
     /**
-     * Get the final solution of the PDE
-     *
-     * \param solution -  2D container for solution
-     */
-    LSS_API void solve(container_2d<by_enum::Row> &solution);
+        @brief  Get the final solution of the PDE
+        @param  solution -  2D container for solution (S in rows, Vol in cols)
+        @retval
+    **/
+    LSS_API void solve(matrix_2d &solution);
 
     /**
-     * Get all solutions in time (surface) of the PDE
-     *
-     * \param solutions - 3D container for all the solutions in time
-     */
-    void solve(container_3d<by_enum::Row> &solutions);
+        @brief Get all solutions in time (surface) of the PDE
+        @param solutions - 3D container for all the solutions in time
+    **/
+    LSS_API void solve(matrix_3d &solutions);
 };
 
 } // namespace implicit_solvers
@@ -127,41 +137,44 @@ class heston_equation
 namespace explicit_solvers
 {
 
-/*!
-============================================================================
-Represents general variable coefficient Heston type equation
+/**
 
-u_t = a(t,x,y)*u_xx + b(t,x,y)*u_yy + c(t,x,y)*u_xy + d(t,x,y)*u_x +
-e(t,x,y)*u_y + f(t,x,y)*u + F(t,x,y)
+    @class   heston_equation
+    @brief   Represents general variable coefficient Heston type equation
+    @details
 
-t > 0, x_1 < x < x_2, y_1 < y < y_2
+            u_t = a(t,x,y)*u_xx + b(t,x,y)*u_yy + c(t,x,y)*u_xy + d(t,x,y)*u_x +
+                 + e(t,x,y)*u_y + f(t,x,y)*u + F(t,x,y)
 
-with initial condition:
+            t > 0, x_1 < x < x_2, y_1 < y < y_2
 
-u(0,x,y) = G(x,y)
+            with initial condition:
 
-or terminal condition:
+            u(0,x,y) = G(x,y)
 
-u(T,x,y) = G(x,y)
+            or terminal condition:
 
-horizontal_boundary_pair = S = (S_1,S_2) boundary
+            u(T,x,y) = G(x,y)
 
-             vol (Y)
-        ________________
-        |S_1,S_1,S_1,S_1|
-        |               |
-        |               |
-S (X)   |               |
-        |               |
-        |               |
-        |               |
-        |               |
-        |S_2,S_2,S_2,S_2|
-        |_______________|
+            horizontal_boundary_pair = S = (S_1,S_2) boundary
 
-// ============================================================================
-*/
+                             vol (Y)
+                        ________________
+                        |S_1,S_1,S_1,S_1|
+                        |               |
+                        |               |
+                S (X)   |               |
+                        |               |
+                        |               |
+                        |               |
+                        |               |
+                        |S_2,S_2,S_2,S_2|
+                        |_______________|
 
+
+
+
+**/
 class heston_equation
 {
   private:
@@ -194,18 +207,17 @@ class heston_equation
     heston_equation &operator=(heston_equation &&) = delete;
 
     /**
-     * Get the final solution of the PDE
-     *
-     * \param solution - 2D container for solution
-     */
-    LSS_API void solve(container_2d<by_enum::Row> &solution);
+        @brief  Get the final solution of the PDE
+        @param  solution -  2D container for solution (S in rows, Vol in cols)
+        @retval
+    **/
+    LSS_API void solve(matrix_2d &solution);
 
     /**
-     * Get all solutions in time (surface) of the PDE
-     *
-     * \param solutions - 3D container for all the solutions in time
-     */
-    void solve(container_3d<by_enum::Row> &solutions);
+        @brief Get all solutions in time (surface) of the PDE
+        @param solutions - 3D container for all the solutions in time
+    **/
+    LSS_API void solve(matrix_3d &solutions);
 };
 
 } // namespace explicit_solvers

@@ -1,3 +1,14 @@
+/**
+
+    @file      lss_heston_equation_implicit_kernel.hpp
+    @brief     Implicit kernel for Heston type problems
+    @details   ~
+    @author    Michal Sara
+    @date      14.02.2022
+    @copyright © Michal Sara, 2022. All right reserved.
+
+**/
+#pragma once
 #if !defined(_LSS_HESTON_EQUATION_IMPLICIT_KERNEL_HPP_)
 #define _LSS_HESTON_EQUATION_IMPLICIT_KERNEL_HPP_
 
@@ -6,8 +17,8 @@
 #include "../../../boundaries/lss_boundary.hpp"
 #include "../../../common/lss_enumerations.hpp"
 #include "../../../common/lss_utility.hpp"
-#include "../../../containers/lss_container_2d.hpp"
-#include "../../../containers/lss_container_3d.hpp"
+#include "../../../containers/lss_matrix_2d.hpp"
+#include "../../../containers/lss_matrix_3d.hpp"
 #include "../../../discretization/lss_discretization.hpp"
 #include "../../../discretization/lss_grid.hpp"
 #include "../../../discretization/lss_grid_config.hpp"
@@ -23,8 +34,7 @@ namespace two_dimensional
 
 using lss_boundary::boundary_2d_pair;
 using lss_boundary::boundary_2d_ptr;
-using lss_containers::container_2d;
-using lss_enumerations::by_enum;
+using lss_containers::matrix_2d;
 using lss_enumerations::memory_space_enum;
 using lss_enumerations::tridiagonal_method_enum;
 using lss_grids::grid_config_2d_ptr;
@@ -59,8 +69,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Device, tri
                                     heat_implicit_solver_config_ptr const &solver_config,
                                     grid_config_2d_ptr const &grid_config);
 
-    void operator()(container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution,
-                    bool is_heat_sourse_set, std::function<double(double, double, double)> const &heat_source);
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source);
 
     // TODO: may be implemented
     // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
@@ -90,9 +100,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Device, tri
                                     heat_implicit_solver_config_ptr const &solver_config,
                                     grid_config_2d_ptr const &grid_config);
 
-    void operator()(container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution,
-                    bool is_heat_sourse_set, std::function<double(double, double, double)> const &heat_source,
-                    double omega_value);
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, double omega_value);
 
     // TODO: may be implemented
     // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
@@ -126,8 +135,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridi
                                     heat_implicit_solver_config_ptr const &solver_config,
                                     grid_config_2d_ptr const &grid_config);
 
-    void operator()(container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution,
-                    bool is_heat_sourse_set, std::function<double(double, double, double)> const &heat_source);
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source);
 
     // TODO: may be implemented
     // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
@@ -156,9 +165,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridi
                                     heat_implicit_solver_config_ptr const &solver_config,
                                     grid_config_2d_ptr const &grid_config);
 
-    void operator()(container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution,
-                    bool is_heat_sourse_set, std::function<double(double, double, double)> const &heat_source,
-                    double omega_value);
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, double omega_value);
 
     // TODO: may be implemented
     // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
@@ -189,8 +197,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridi
                                     heat_implicit_solver_config_ptr const &solver_config,
                                     grid_config_2d_ptr const &grid_config);
 
-    void operator()(container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution,
-                    bool is_heat_sourse_set, std::function<double(double, double, double)> const &heat_source);
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source);
 
     // TODO: may be implemented
     // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
@@ -220,8 +228,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridi
                                     heat_implicit_solver_config_ptr const &solver_config,
                                     grid_config_2d_ptr const &grid_config);
 
-    void operator()(container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution,
-                    bool is_heat_sourse_set, std::function<double(double, double, double)> const &heat_source);
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source);
 
     // TODO: may be implemented
     // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,

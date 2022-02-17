@@ -7,23 +7,23 @@
 #include <memory>
 #include <tuple>
 
-//#include "../discretization/lss_grid.hpp"
-//#include "../discretization/lss_grid_config.hpp"
-//#include "../discretization/lss_grid_transform_config.hpp"
+#include "../discretization/lss_grid.hpp"
+#include "../discretization/lss_grid_config.hpp"
+#include "../discretization/lss_grid_transform_config.hpp"
 
 namespace lss_xml
 {
-// using lss_enumerations::grid_enum;
-// using lss_grids::grid_1d;
-// using lss_grids::grid_2d;
-// using lss_grids::grid_3d;
-// using lss_grids::grid_config_1d;
-// using lss_grids::grid_config_2d;
-// using lss_grids::grid_config_3d;
-// using lss_grids::grid_transform_config_1d;
-// using lss_grids::grid_transform_config_2d;
-// using lss_grids::grid_transform_config_3d;
-/*
+using lss_enumerations::grid_enum;
+using lss_grids::grid_1d;
+using lss_grids::grid_2d;
+using lss_grids::grid_3d;
+using lss_grids::grid_config_1d;
+using lss_grids::grid_config_2d;
+using lss_grids::grid_config_3d;
+using lss_grids::grid_transform_config_1d;
+using lss_grids::grid_transform_config_2d;
+using lss_grids::grid_transform_config_3d;
+
 void xml(discretization_config_1d_ptr const &discretization_config, grid_config_hints_1d_ptr const &grid_hints_cfg,
          container_t const &container, std::ostream &out)
 {
@@ -63,8 +63,7 @@ void xml(discretization_config_1d_ptr const &discretization_config, grid_config_
 }
 
 void xml(pde_discretization_config_1d_ptr const &pde_discretization_config,
-         grid_config_hints_1d_ptr const &grid_config_hints, container_2d<by_enum::Row> const &container,
-         std::ostream &out)
+         grid_config_hints_1d_ptr const &grid_config_hints, matrix_2d const &container, std::ostream &out)
 {
     const std::size_t space_size = pde_discretization_config->number_of_space_points();
     const std::size_t time_size = pde_discretization_config->number_of_time_points();
@@ -117,8 +116,7 @@ void xml(pde_discretization_config_1d_ptr const &pde_discretization_config,
 }
 
 void xml(pde_discretization_config_2d_ptr const &pde_discretization_config,
-         grid_config_hints_2d_ptr const &grid_config_hints, container_2d<by_enum::Row> const &container,
-         std::ostream &out)
+         grid_config_hints_2d_ptr const &grid_config_hints, matrix_2d const &container, std::ostream &out)
 {
     const auto &space_sizes = pde_discretization_config->number_of_space_points();
     LSS_ASSERT((container.columns() == std::get<1>(space_sizes)) && (container.rows() == std::get<0>(space_sizes)),
@@ -165,7 +163,7 @@ void xml(pde_discretization_config_2d_ptr const &pde_discretization_config,
     out << values[values.size() - 1];
     out << "</VALUES></ORDINATE></AXES></SURFACE>";
 }
-
+/*
 void xml(pde_discretization_config_3d_ptr const &pde_discretization_config,
          grid_config_hints_3d_ptr const &grid_config_hints, container_3d<by_enum::LayerPlane> const &container,
          std::ostream &out)

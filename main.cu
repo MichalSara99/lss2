@@ -1,6 +1,9 @@
 ﻿#include<iostream>
 #include<string>
 
+// TESTS FOR UTILITY:
+#include"unit_tests/common/lss_numerical_integration_t.hpp"
+#include"unit_tests/common/lss_heston_price_t.hpp"
 // TESTS FOR CONTAINERS:
 #include"unit_tests/containers/lss_matrix_2d_t.hpp"
 #include"unit_tests/containers/lss_matrix_3d_t.hpp"
@@ -22,6 +25,8 @@
 #include"unit_tests/pde_solvers/1d/lss_pure_heat_equation_t.hpp"
 #include"unit_tests/pde_solvers/1d/lss_pure_wave_equation_t.hpp"
 // TESTS FOR 2D PDE PROBLEMS:
+#include"unit_tests/pde_solvers/2d/lss_heston_equation_t.hpp"
+#include"unit_tests/pde_solvers/2d/lss_sabr_equation_t.hpp"
 
 
 
@@ -48,7 +53,17 @@ int main()
   // test_dirichlet_bc_bvp_on_device();
   // test_robin_bc_bvp_on_host();
   // test_robin_bc_bvp_on_device();
+  //
+  // ======================================================
+  // =========== lss_numerical_integration_t ==============
+  // ======================================================
+  // trapezoid_integral_1_test();
   // 
+  // ======================================================
+  // =========== lss_numerical_integration_t ==============
+  // ======================================================
+  // heston_price_test();
+  //
   // ======================================================
   // =========== lss_core_sor_solver_cuda_t ===============
   // ======================================================
@@ -108,7 +123,7 @@ int main()
   // test_impl_simple_ode_dirichlet_neumann_bc_cuda_solver_device();
   // test_impl_simple_ode_dirichlet_robin_bc_cuda_solver_device();
   // test_impl_simple_ode_neumann_robin_bc_cuda_solver_device();
-   test_impl_simple_ode1_neumann_robin_bc_cuda_solver_device();
+  // test_impl_simple_ode1_neumann_robin_bc_cuda_solver_device();
   // 
   // ======================================================
   // =========== lss_advection_equation_t =================
@@ -164,7 +179,17 @@ int main()
   // test_impl_pure_wave_equation_neumann_bc_cuda_solver_device_qr();
   // test_expl_pure_wave_equation_dirichlet_bc_cuda_host_solver();
   // test_expl_pure_wave_equation_dirichlet_bc_cuda_device_solver();
-
+  //  
+  // ======================================================
+  // ================ lss_heston_equation_t ===============
+  // ======================================================
+  // test_impl_heston_equation_cuda_qr_solver();
+  // test_impl_heston_equation_thomas_lu_solver();
+  // 
+  // ======================================================
+  // ================ lss_heston_equation_t ===============
+  // ======================================================
+  // test_impl_sabr_equation_double_sweep_solver();
 
         
     std::cin.get();

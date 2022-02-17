@@ -7,13 +7,13 @@
 #include <memory>
 #include <tuple>
 
-//#include "../discretization/lss_grid.hpp"
-//#include "../discretization/lss_grid_config.hpp"
-//#include "../discretization/lss_grid_transform_config.hpp"
+#include "../discretization/lss_grid.hpp"
+#include "../discretization/lss_grid_config.hpp"
+#include "../discretization/lss_grid_transform_config.hpp"
 
 namespace lss_print
 {
-/*
+
 using lss_grids::grid_1d;
 using lss_grids::grid_2d;
 using lss_grids::grid_3d;
@@ -52,8 +52,7 @@ void print(discretization_config_1d_ptr const &discretization_config, grid_confi
 }
 
 void print(pde_discretization_config_2d_ptr const &pde_discretization_config,
-           grid_config_hints_2d_ptr const &grid_config_hints, container_2d<by_enum::Row> const &container,
-           std::ostream &out)
+           grid_config_hints_2d_ptr const &grid_config_hints, matrix_2d const &container, std::ostream &out)
 {
     const auto &space_sizes = pde_discretization_config->number_of_space_points();
     LSS_ASSERT((container.columns() == std::get<1>(space_sizes)) && (container.rows() == std::get<0>(space_sizes)),
@@ -94,8 +93,7 @@ void print(pde_discretization_config_2d_ptr const &pde_discretization_config,
 }
 
 void print(pde_discretization_config_1d_ptr const &pde_discretization_config,
-           grid_config_hints_1d_ptr const &grid_config_hints, container_2d<by_enum::Row> const &container,
-           std::ostream &out)
+           grid_config_hints_1d_ptr const &grid_config_hints, matrix_2d const &container, std::ostream &out)
 {
     const std::size_t space_size = pde_discretization_config->number_of_space_points();
     const std::size_t time_size = pde_discretization_config->number_of_time_points();
@@ -141,7 +139,7 @@ void print(pde_discretization_config_1d_ptr const &pde_discretization_config,
         out << "\n";
     }
 }
-
+/*
 void print(pde_discretization_config_3d_ptr const &pde_discretization_config,
            grid_config_hints_3d_ptr const &grid_config_hints, container_3d<by_enum::RowPlane> const &container,
            std::ostream &out)

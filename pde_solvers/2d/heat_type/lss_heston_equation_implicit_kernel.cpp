@@ -5,14 +5,14 @@
 #include "../../../sparse_solvers/tridiagonal/sor_solver/lss_sor_solver.hpp"
 #include "../../../sparse_solvers/tridiagonal/sor_solver_cuda/lss_sor_solver_cuda.hpp"
 #include "../../../sparse_solvers/tridiagonal/thomas_lu_solver/lss_thomas_lu_solver.hpp"
-#include "boundary_solver/lss_heston_explicit_boundary_solver.hpp"
-#include "implicit_coefficients/lss_heston_implicit_coefficients.hpp"
-#include "splitting_method/lss_heat_craig_sneyd_method.hpp"
-#include "splitting_method/lss_heat_douglas_rachford_method.hpp"
-#include "splitting_method/lss_heat_hundsdorfer_verwer_method.hpp"
-#include "splitting_method/lss_heat_modified_craig_sneyd_method.hpp"
-#include "splitting_method/lss_heat_splitting_method.hpp"
-#include "time_loop/lss_heston_implicit_time_loop.hpp"
+#include "boundary_solver/lss_heston_boundary_solver.hpp"
+#include "implicit_coefficients/lss_heat_coefficients_2d.hpp"
+#include "solver_method/splitting/lss_heat_craig_sneyd_method.hpp"
+#include "solver_method/splitting/lss_heat_douglas_rachford_method.hpp"
+#include "solver_method/splitting/lss_heat_hundsdorfer_verwer_method.hpp"
+#include "solver_method/splitting/lss_heat_modified_craig_sneyd_method.hpp"
+#include "solver_method/splitting/lss_heat_splitting_method.hpp"
+#include "time_loop/lss_implicit_time_loop_2d.hpp"
 
 namespace lss_pde_solvers
 {
@@ -42,7 +42,7 @@ heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_method_en
 }
 
 void heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_method_enum::CUDASolver>::operator()(
-    container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution, bool is_heat_sourse_set,
+    matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
     std::function<double(double, double, double)> const &heat_source)
 {
     // get time range:
@@ -58,7 +58,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_meth
     // save traverse_direction
     const traverse_direction_enum traverse_dir = solver_cfg_->traverse_direction();
     // create a Heston coefficient holder:
-    auto const heston_coeff_holder = std::make_shared<heston_implicit_coefficients>(
+    auto const heston_coeff_holder = std::make_shared<heat_coefficients_2d>(
         heat_data_cfg_, discretization_cfg_, splitting_cfg_, solver_cfg_->implicit_pde_scheme_value());
     heat_splitting_method_ptr splitting_ptr;
     auto solver_y = std::make_shared<cuda_solver<memory_space_enum::Device>>(space_size_x);
@@ -92,7 +92,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_meth
         throw std::exception("Unreachable");
     }
     // create and set up lower volatility boundary solver:
-    auto boundary_solver = std::make_shared<heston_explicit_boundary_solver>(heston_coeff_holder, grid_cfg_);
+    auto boundary_solver = std::make_shared<heston_boundary_solver>(heston_coeff_holder, grid_cfg_);
 
     if (is_heat_sourse_set)
     {
@@ -109,8 +109,8 @@ void heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_meth
     }
     else
     {
-        heston_implicit_time_loop::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_,
-                                       time, last_time_idx, k, traverse_dir, prev_solution, next_solution);
+        implicit_time_loop_2d::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_, time,
+                                   last_time_idx, k, traverse_dir, prev_solution, next_solution);
     }
 }
 
@@ -129,7 +129,7 @@ heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_method_en
 }
 
 void heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_method_enum::SORSolver>::operator()(
-    container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution, bool is_heat_sourse_set,
+    matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
     std::function<double(double, double, double)> const &heat_source, double omega_value)
 {
     // get time range:
@@ -146,7 +146,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_meth
     const traverse_direction_enum traverse_dir = solver_cfg_->traverse_direction();
 
     // create a Heston coefficient holder:
-    auto const heston_coeff_holder = std::make_shared<heston_implicit_coefficients>(
+    auto const heston_coeff_holder = std::make_shared<heat_coefficients_2d>(
         heat_data_cfg_, discretization_cfg_, splitting_cfg_, solver_cfg_->implicit_pde_scheme_value());
     heat_splitting_method_ptr splitting_ptr;
     auto solver_y = std::make_shared<sor_solver_cuda>(space_size_x);
@@ -180,7 +180,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_meth
         throw std::exception("Unreachable");
     }
     // create and set up lower volatility boundary solver:
-    auto boundary_solver = std::make_shared<heston_explicit_boundary_solver>(heston_coeff_holder, grid_cfg_);
+    auto boundary_solver = std::make_shared<heston_boundary_solver>(heston_coeff_holder, grid_cfg_);
 
     if (is_heat_sourse_set)
     {
@@ -197,8 +197,8 @@ void heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_meth
     }
     else
     {
-        heston_implicit_time_loop::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_,
-                                       time, last_time_idx, k, traverse_dir, prev_solution, next_solution);
+        implicit_time_loop_2d::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_, time,
+                                   last_time_idx, k, traverse_dir, prev_solution, next_solution);
     }
 }
 
@@ -217,7 +217,7 @@ heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum
 }
 
 void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::CUDASolver>::operator()(
-    container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution, bool is_heat_sourse_set,
+    matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
     std::function<double(double, double, double)> const &heat_source)
 {
     // get time range:
@@ -233,7 +233,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
     // save traverse_direction
     const traverse_direction_enum traverse_dir = solver_cfg_->traverse_direction();
     // create a Heston coefficient holder:
-    auto const heston_coeff_holder = std::make_shared<heston_implicit_coefficients>(
+    auto const heston_coeff_holder = std::make_shared<heat_coefficients_2d>(
         heat_data_cfg_, discretization_cfg_, splitting_cfg_, solver_cfg_->implicit_pde_scheme_value());
     heat_splitting_method_ptr splitting_ptr;
     auto solver_y = std::make_shared<cuda_solver<memory_space_enum::Host>>(space_size_x);
@@ -267,7 +267,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
         throw std::exception("Unreachable");
     }
     // create and set up lower volatility boundary solver:
-    auto boundary_solver = std::make_shared<heston_explicit_boundary_solver>(heston_coeff_holder, grid_cfg_);
+    auto boundary_solver = std::make_shared<heston_boundary_solver>(heston_coeff_holder, grid_cfg_);
 
     if (is_heat_sourse_set)
     {
@@ -284,8 +284,8 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
     }
     else
     {
-        heston_implicit_time_loop::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_,
-                                       time, last_time_idx, k, traverse_dir, prev_solution, next_solution);
+        implicit_time_loop_2d::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_, time,
+                                   last_time_idx, k, traverse_dir, prev_solution, next_solution);
     }
 }
 
@@ -304,7 +304,7 @@ heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum
 }
 
 void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::SORSolver>::operator()(
-    container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution, bool is_heat_sourse_set,
+    matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
     std::function<double(double, double, double)> const &heat_source, double omega_value)
 {
     // get time range:
@@ -320,7 +320,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
     // save traverse_direction
     const traverse_direction_enum traverse_dir = solver_cfg_->traverse_direction();
     // create a Heston coefficient holder:
-    auto const heston_coeff_holder = std::make_shared<heston_implicit_coefficients>(
+    auto const heston_coeff_holder = std::make_shared<heat_coefficients_2d>(
         heat_data_cfg_, discretization_cfg_, splitting_cfg_, solver_cfg_->implicit_pde_scheme_value());
     heat_splitting_method_ptr splitting_ptr;
     auto solver_y = std::make_shared<sor_solver>(space_size_x);
@@ -354,7 +354,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
         throw std::exception("Unreachable");
     }
     // create and set up lower volatility boundary solver:
-    auto boundary_solver = std::make_shared<heston_explicit_boundary_solver>(heston_coeff_holder, grid_cfg_);
+    auto boundary_solver = std::make_shared<heston_boundary_solver>(heston_coeff_holder, grid_cfg_);
 
     if (is_heat_sourse_set)
     {
@@ -371,8 +371,8 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
     }
     else
     {
-        heston_implicit_time_loop::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_,
-                                       time, last_time_idx, k, traverse_dir, prev_solution, next_solution);
+        implicit_time_loop_2d::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_, time,
+                                   last_time_idx, k, traverse_dir, prev_solution, next_solution);
     }
 }
 
@@ -391,7 +391,7 @@ heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum
 }
 
 void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::DoubleSweepSolver>::operator()(
-    container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution, bool is_heat_sourse_set,
+    matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
     std::function<double(double, double, double)> const &heat_source)
 {
     // get time range:
@@ -407,7 +407,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
     // save traverse_direction
     const traverse_direction_enum traverse_dir = solver_cfg_->traverse_direction();
     // create a Heston coefficient holder:
-    auto const heston_coeff_holder = std::make_shared<heston_implicit_coefficients>(
+    auto const heston_coeff_holder = std::make_shared<heat_coefficients_2d>(
         heat_data_cfg_, discretization_cfg_, splitting_cfg_, solver_cfg_->implicit_pde_scheme_value());
     heat_splitting_method_ptr splitting_ptr;
     // create and set up the main solvers:
@@ -439,7 +439,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
         throw std::exception("Unreachable");
     }
     // create and set up lower volatility boundary solver:
-    auto boundary_solver = std::make_shared<heston_explicit_boundary_solver>(heston_coeff_holder, grid_cfg_);
+    auto boundary_solver = std::make_shared<heston_boundary_solver>(heston_coeff_holder, grid_cfg_);
 
     if (is_heat_sourse_set)
     {
@@ -456,8 +456,8 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
     }
     else
     {
-        heston_implicit_time_loop::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_,
-                                       time, last_time_idx, k, traverse_dir, prev_solution, next_solution);
+        implicit_time_loop_2d::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_, time,
+                                   last_time_idx, k, traverse_dir, prev_solution, next_solution);
     }
 }
 
@@ -476,7 +476,7 @@ heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum
 }
 
 void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::ThomasLUSolver>::operator()(
-    container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution, bool is_heat_sourse_set,
+    matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
     std::function<double(double, double, double)> const &heat_source)
 {
     // get time range:
@@ -492,7 +492,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
     // save traverse_direction
     const traverse_direction_enum traverse_dir = solver_cfg_->traverse_direction();
     // create a Heston coefficient holder:
-    auto const heston_coeff_holder = std::make_shared<heston_implicit_coefficients>(
+    auto const heston_coeff_holder = std::make_shared<heat_coefficients_2d>(
         heat_data_cfg_, discretization_cfg_, splitting_cfg_, solver_cfg_->implicit_pde_scheme_value());
     heat_splitting_method_ptr splitting_ptr;
     // create and set up the main solvers:
@@ -524,7 +524,7 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
         throw std::exception("Unreachable");
     }
     // create and set up lower volatility boundary solver:
-    auto boundary_solver = std::make_shared<heston_explicit_boundary_solver>(heston_coeff_holder, grid_cfg_);
+    auto boundary_solver = std::make_shared<heston_boundary_solver>(heston_coeff_holder, grid_cfg_);
 
     if (is_heat_sourse_set)
     {
@@ -541,8 +541,8 @@ void heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method
     }
     else
     {
-        heston_implicit_time_loop::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_,
-                                       time, last_time_idx, k, traverse_dir, prev_solution, next_solution);
+        implicit_time_loop_2d::run(splitting_ptr, boundary_solver, boundary_pair_hor_, boundary_ver_, grid_cfg_, time,
+                                   last_time_idx, k, traverse_dir, prev_solution, next_solution);
     }
 }
 

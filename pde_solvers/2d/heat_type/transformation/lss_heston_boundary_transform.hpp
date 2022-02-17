@@ -1,3 +1,14 @@
+/**
+
+    @file      lss_heston_boundary_transform.hpp
+    @brief     Transformation of Heston's boundaries
+    @details   ~
+    @author    Michal Sara
+    @date      14.02.2022
+    @copyright © Michal Sara, 2022. All right reserved.
+
+**/
+#pragma once
 #if !defined(_LSS_HESTON_BOUNDARY_TRANSFORM_HPP_)
 #define _LSS_HESTON_BOUNDARY_TRANSFORM_HPP_
 

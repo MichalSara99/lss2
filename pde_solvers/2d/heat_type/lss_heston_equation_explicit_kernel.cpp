@@ -1,8 +1,8 @@
 #include "lss_heston_equation_explicit_kernel.hpp"
 
 #include "../../../discretization/lss_grid.hpp"
-#include "explicit_schemes/lss_heston_euler_cuda_solver_scheme.hpp"
-#include "explicit_schemes/lss_heston_euler_solver_scheme.hpp"
+#include "explicit_schemes/lss_heat_euler_cuda_scheme_2d.hpp"
+#include "explicit_schemes/lss_heat_euler_scheme_2d.hpp"
 
 namespace lss_pde_solvers
 {
@@ -23,19 +23,19 @@ heston_equation_explicit_kernel<memory_space_enum::Device>::heston_equation_expl
 }
 
 void heston_equation_explicit_kernel<memory_space_enum::Device>::operator()(
-    container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution, bool is_heat_sourse_set,
+    matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
     std::function<double(double, double, double)> const &heat_source)
 {
     // save traverse_direction
     const traverse_direction_enum traverse_dir = solver_cfg_->traverse_direction();
     // create a Heston coefficient holder:
     auto const heston_coeff_holder =
-        std::make_shared<heston_implicit_coefficients>(heat_data_cfg_, discretization_cfg_, nullptr, 0.0);
+        std::make_shared<heat_coefficients_2d>(heat_data_cfg_, discretization_cfg_, nullptr, 0.0);
     // Here make a dicision which explicit scheme to launch:
     if (solver_cfg_->explicit_pde_scheme() == explicit_pde_schemes_enum::Euler)
     {
-        heston_euler_cuda_scheme euler_scheme(heston_coeff_holder, boundary_ver_, boundary_pair_hor_,
-                                              discretization_cfg_, grid_cfg_);
+        heat_euler_cuda_scheme_2d euler_scheme(heston_coeff_holder, boundary_ver_, boundary_pair_hor_,
+                                               discretization_cfg_, grid_cfg_);
         euler_scheme(prev_solution, next_solution, is_heat_sourse_set, heat_source, traverse_dir);
     }
     else if (solver_cfg_->explicit_pde_scheme() == explicit_pde_schemes_enum::ADEBarakatClark)
@@ -63,19 +63,19 @@ heston_equation_explicit_kernel<memory_space_enum::Host>::heston_equation_explic
 }
 
 void heston_equation_explicit_kernel<memory_space_enum::Host>::operator()(
-    container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution, bool is_heat_sourse_set,
+    matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
     std::function<double(double, double, double)> const &heat_source)
 {
     // save traverse_direction
     const traverse_direction_enum traverse_dir = solver_cfg_->traverse_direction();
     // create a Heston coefficient holder:
     auto const heston_coeff_holder =
-        std::make_shared<heston_implicit_coefficients>(heat_data_cfg_, discretization_cfg_, nullptr, 0.0);
+        std::make_shared<heat_coefficients_2d>(heat_data_cfg_, discretization_cfg_, nullptr, 0.0);
     // Here make a dicision which explicit scheme to launch:
     if (solver_cfg_->explicit_pde_scheme() == explicit_pde_schemes_enum::Euler)
     {
-        heston_euler_scheme euler_scheme(heston_coeff_holder, boundary_ver_, boundary_pair_hor_, discretization_cfg_,
-                                         grid_cfg_);
+        heat_euler_scheme_2d euler_scheme(heston_coeff_holder, boundary_ver_, boundary_pair_hor_, discretization_cfg_,
+                                          grid_cfg_);
         euler_scheme(prev_solution, next_solution, is_heat_sourse_set, heat_source, traverse_dir);
     }
     else if (solver_cfg_->explicit_pde_scheme() == explicit_pde_schemes_enum::ADEBarakatClark)
