@@ -34,9 +34,9 @@ struct implicit_pde_scheme
     explicit implicit_pde_scheme();
 
   public:
-    explicit implicit_pde_scheme(double value);
+    LSS_API explicit implicit_pde_scheme(double value);
 
-    explicit implicit_pde_scheme(implicit_pde_schemes_enum implicit_pde_enum);
+    LSS_API explicit implicit_pde_scheme(implicit_pde_schemes_enum implicit_pde_enum);
 
     virtual ~implicit_pde_scheme();
 

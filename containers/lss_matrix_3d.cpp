@@ -72,14 +72,14 @@ void matrix_3d::operator()(std::size_t row_idx, std::size_t col_idx, std::size_t
     data_[col_idx + cols_ * row_idx + rows_ * cols_ * lay_idx] = value;
 }
 
-std::slice_array<double> matrix_3d::row(std::size_t row_idx, std::size_t lay_idx)
+std::slice_array<double> matrix_3d::row_array(std::size_t row_idx, std::size_t lay_idx)
 {
     LSS_ASSERT(row_idx >= 0 && row_idx < rows_, "matrix_3d: row_idx out of range.");
     LSS_ASSERT(lay_idx >= 0 && lay_idx < lays_, "matrix_3d: lay_idx out of range.");
     return data_[std::slice(cols_ * row_idx + rows_ * cols_ * lay_idx, cols_, 1)];
 }
 
-void matrix_3d::row(std::size_t row_idx, std::size_t lay_idx, std::valarray<double> &&vals)
+void matrix_3d::row_array(std::size_t row_idx, std::size_t lay_idx, std::valarray<double> &&vals)
 {
     LSS_ASSERT(row_idx >= 0 && row_idx < rows_, "matrix_3d: row_idx out of range.");
     LSS_ASSERT(lay_idx >= 0 && lay_idx < lays_, "matrix_3d: lay_idx out of range.");
@@ -87,14 +87,27 @@ void matrix_3d::row(std::size_t row_idx, std::size_t lay_idx, std::valarray<doub
     data_[std::slice(cols_ * row_idx + rows_ * cols_ * lay_idx, cols_, 1)] = std::move(vals);
 }
 
-std::slice_array<double> matrix_3d::column(std::size_t col_idx, std::size_t lay_idx)
+std::gslice_array<double> matrix_3d::row_plane(std::size_t row_idx)
+{
+    LSS_ASSERT(row_idx >= 0 && row_idx < rows_, "matrix_3d: row_idx out of range.");
+    return data_[std::gslice(cols_ * row_idx, {lays_, cols_}, {rows_ * cols_, 1})];
+}
+
+void matrix_3d::row_plane(std::size_t row_idx, std::valarray<double> &&vals)
+{
+    LSS_ASSERT(row_idx >= 0 && row_idx < rows_, "matrix_3d: row_idx out of range.");
+    LSS_ASSERT((cols_ * lays_) == vals.size(), "matrix_3d: vals must have same cols*lays size");
+    data_[std::gslice(cols_ * row_idx, {lays_, cols_}, {rows_ * cols_, 1})] = std::move(vals);
+}
+
+std::slice_array<double> matrix_3d::column_array(std::size_t col_idx, std::size_t lay_idx)
 {
     LSS_ASSERT(col_idx >= 0 && col_idx < cols_, "matrix_3d: col_idx out of range.");
     LSS_ASSERT(lay_idx >= 0 && lay_idx < lays_, "matrix_3d: lay_idx out of range.");
     return data_[std::slice(col_idx + lay_idx * cols_ * rows_, rows_, cols_)];
 }
 
-void matrix_3d::column(std::size_t col_idx, std::size_t lay_idx, std::valarray<double> &&vals)
+void matrix_3d::column_array(std::size_t col_idx, std::size_t lay_idx, std::valarray<double> &&vals)
 {
     LSS_ASSERT(col_idx >= 0 && col_idx < cols_, "matrix_3d: col_idx out of range.");
     LSS_ASSERT(lay_idx >= 0 && lay_idx < lays_, "matrix_3d: lay_idx out of range.");
@@ -102,19 +115,45 @@ void matrix_3d::column(std::size_t col_idx, std::size_t lay_idx, std::valarray<d
     data_[std::slice(col_idx + lay_idx * cols_ * rows_, rows_, cols_)] = std::move(vals);
 }
 
-std::slice_array<double> matrix_3d::layer(std::size_t row_idx, std::size_t col_idx)
+std::gslice_array<double> matrix_3d::column_plane(std::size_t col_idx)
+{
+    LSS_ASSERT(col_idx >= 0 && col_idx < cols_, "matrix_3d: col_idx out of range.");
+    return data_[std::gslice(col_idx, {rows_, lays_}, {cols_, rows_ * cols_})];
+}
+
+void matrix_3d::column_plane(std::size_t col_idx, std::valarray<double> &&vals)
+{
+    LSS_ASSERT(col_idx >= 0 && col_idx < cols_, "matrix_3d: col_idx out of range.");
+    LSS_ASSERT((rows_ * lays_) == vals.size(), "matrix_3d: vals must have same rows * lays size");
+    data_[std::gslice(col_idx, {rows_, lays_}, {cols_, rows_ * cols_})] = std::move(vals);
+}
+
+std::slice_array<double> matrix_3d::layer_array(std::size_t row_idx, std::size_t col_idx)
 {
     LSS_ASSERT(row_idx >= 0 && row_idx < rows_, "matrix_3d: row_idx out of range.");
     LSS_ASSERT(col_idx >= 0 && col_idx < cols_, "matrix_3d: col_idx out of range.");
     return data_[std::slice(col_idx + row_idx * cols_, lays_, cols_ * rows_)];
 }
 
-void matrix_3d::layer(std::size_t row_idx, std::size_t col_idx, std::valarray<double> &&vals)
+void matrix_3d::layer_array(std::size_t row_idx, std::size_t col_idx, std::valarray<double> &&vals)
 {
     LSS_ASSERT(row_idx >= 0 && row_idx < rows_, "matrix_3d: row_idx out of range.");
     LSS_ASSERT(col_idx >= 0 && col_idx < cols_, "matrix_3d: col_idx out of range.");
     LSS_ASSERT(lays_ == vals.size(), "matrix_3d: vals must have same layer size");
     data_[std::slice(col_idx + row_idx * cols_, lays_, cols_ * rows_)] = std::move(vals);
+}
+
+std::gslice_array<double> matrix_3d::layer_plane(std::size_t lay_idx)
+{
+    LSS_ASSERT(lay_idx >= 0 && lay_idx < lays_, "matrix_3d: lay_idx out of range.");
+    return data_[std::gslice(lay_idx * rows_ * cols_, {rows_, cols_}, {cols_, 1})];
+}
+
+void matrix_3d::layer_plane(std::size_t lay_idx, std::valarray<double> &&vals)
+{
+    LSS_ASSERT(lay_idx >= 0 && lay_idx < lays_, "matrix_3d: lay_idx out of range.");
+    LSS_ASSERT((rows_ * cols_) == vals.size(), "matrix_3d: vals must have same rows*cols size");
+    data_[std::gslice(lay_idx * rows_ * cols_, {rows_, cols_}, {cols_, 1})] = std::move(vals);
 }
 
 } // namespace lss_containers

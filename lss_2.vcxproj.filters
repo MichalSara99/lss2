@@ -214,6 +214,54 @@
     <Filter Include="unit_tests\pde_solvers\2d">
       <UniqueIdentifier>{36bcc509-22d1-47e3-a4dc-f9f5737fa936}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{ece27742-252c-410e-8f8d-0b8fa6c67237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss">
+      <UniqueIdentifier>{8bdf06f9-da1d-43cb-b1fa-c56204d283ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\boundary">
+      <UniqueIdentifier>{0caf98ae-00f9-4d9b-aeb7-16f65b07caca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\configs">
+      <UniqueIdentifier>{89bb95cb-2742-42dd-a433-cc21e2fda21c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\ode">
+      <UniqueIdentifier>{0297967c-db2c-42c7-8acd-0505debcdba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\ode\2nd">
+      <UniqueIdentifier>{8bd10b31-3924-4a60-aeb7-ffff0bf6801b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\ode\configs">
+      <UniqueIdentifier>{7c403888-939f-4fce-9499-5bf41b13fa6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\output">
+      <UniqueIdentifier>{d5046667-2b8a-4a0a-9cea-72ffd07f045b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\utilities">
+      <UniqueIdentifier>{5941429c-f0e5-41b8-b67e-a2d73adaf50b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\pde">
+      <UniqueIdentifier>{cc59d12a-5548-40f3-a592-7e54b9a0976c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\pde\1d">
+      <UniqueIdentifier>{69e11462-91f3-44ee-bf6c-48f37d7a7155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\pde\2d">
+      <UniqueIdentifier>{631af083-0884-4840-b8a0-a05593c52d86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\pde\configs">
+      <UniqueIdentifier>{810ff170-29ae-4fa8-aab0-c0cffc62f252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\pde\1d\heat_type">
+      <UniqueIdentifier>{62a57b0b-dd5d-4cd2-ac38-1b8a446318f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\pde\1d\wave_type">
+      <UniqueIdentifier>{0ee47b2d-f6f3-47da-a526-c5482c62caa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\lss\pde\2d\heston_type">
+      <UniqueIdentifier>{7530c91e-78e6-49a8-975d-2f8bb2f624d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="boundaries\lss_boundary.cpp">
@@ -566,6 +614,150 @@
     </ClCompile>
     <ClCompile Include="unit_tests\common\lss_xml_t.cpp">
       <Filter>unit_tests\common</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\boundary_1d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\boundary_2d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\dirichlet_1d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\dirichlet_2d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\neumann_1d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\neumann_2d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\robin_1d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\robin_2d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\configs\discretization_config_1d.cpp">
+      <Filter>include\lss\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\configs\discretization_config_2d.cpp">
+      <Filter>include\lss\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\configs\discretization_config_ode.cpp">
+      <Filter>include\lss\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\configs\grid_config_1d.cpp">
+      <Filter>include\lss\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\configs\grid_config_2d.cpp">
+      <Filter>include\lss\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\ode\2nd\implicit_ode_tp_solver.cpp">
+      <Filter>include\lss\ode\2nd</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\ode\configs\ode_coefficient_data_config.cpp">
+      <Filter>include\lss\ode\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\ode\configs\ode_data_config.cpp">
+      <Filter>include\lss\ode\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\ode\configs\ode_nonhom_data_config.cpp">
+      <Filter>include\lss\ode\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\ode\configs\ode_solver_config.cpp">
+      <Filter>include\lss\ode\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\output\output.cpp">
+      <Filter>include\lss\output</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\utilities\matrix_2d.cpp">
+      <Filter>include\lss\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\utilities\matrix_3d.cpp">
+      <Filter>include\lss\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\utilities\range.cpp">
+      <Filter>include\lss\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\1d\heat_type\explicit_heat_solver_1d.cpp">
+      <Filter>include\lss\pde\1d\heat_type</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\1d\heat_type\implicit_heat_solver_1d.cpp">
+      <Filter>include\lss\pde\1d\heat_type</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\1d\wave_type\explicit_wave_solver_1d.cpp">
+      <Filter>include\lss\pde\1d\wave_type</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\1d\wave_type\implicit_wave_solver_1d.cpp">
+      <Filter>include\lss\pde\1d\wave_type</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\2d\heston_type\explicit_heston_solver_2d.cpp">
+      <Filter>include\lss\pde\2d\heston_type</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\2d\heston_type\implicit_heston_solver_2d.cpp">
+      <Filter>include\lss\pde\2d\heston_type</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_coefficient_data_config_1d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_coefficient_data_config_2d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_data_config_1d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_data_config_2d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_explicit_solver_config.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_implicit_solver_config.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_initial_data_config_1d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_initial_data_config_2d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_source_data_config_1d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\heat_source_data_config_2d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\implicit_pde_scheme.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\splitting_config.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\wave_coefficient_data_config_1d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\wave_data_config_1d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\wave_explicit_solver_config.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\wave_implicit_solver_config.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\wave_initial_data_config_1d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\pde\configs\wave_source_data_config_1d.cpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\dllmain.cpp">
+      <Filter>include\lss</Filter>
+    </ClCompile>
+    <ClCompile Include="include\pch.cpp">
+      <Filter>include\lss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -967,6 +1159,150 @@
     </ClInclude>
     <ClInclude Include="unit_tests\common\lss_xml_t.hpp">
       <Filter>unit_tests\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\boundary_1d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\boundary_2d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\dirichlet_1d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\dirichlet_2d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\neumann_1d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\neumann_2d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\robin_1d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\robin_2d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\configs\discretization_config_1d.hpp">
+      <Filter>include\lss\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\configs\discretization_config_2d.hpp">
+      <Filter>include\lss\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\configs\discretization_config_ode.hpp">
+      <Filter>include\lss\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\configs\grid_config_1d.hpp">
+      <Filter>include\lss\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\configs\grid_config_2d.hpp">
+      <Filter>include\lss\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\ode\2nd\implicit_ode_tp_solver.hpp">
+      <Filter>include\lss\ode\2nd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\ode\configs\ode_coefficient_data_config.hpp">
+      <Filter>include\lss\ode\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\ode\configs\ode_data_config.hpp">
+      <Filter>include\lss\ode\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\ode\configs\ode_nonhom_data_config.hpp">
+      <Filter>include\lss\ode\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\ode\configs\ode_solver_config.hpp">
+      <Filter>include\lss\ode\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\output\output.hpp">
+      <Filter>include\lss\output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\utilities\matrix_2d.hpp">
+      <Filter>include\lss\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\utilities\matrix_3d.hpp">
+      <Filter>include\lss\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\utilities\range.hpp">
+      <Filter>include\lss\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\1d\heat_type\explicit_heat_solver_1d.hpp">
+      <Filter>include\lss\pde\1d\heat_type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\1d\heat_type\implicit_heat_solver_1d.hpp">
+      <Filter>include\lss\pde\1d\heat_type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\1d\wave_type\explicit_wave_solver_1d.hpp">
+      <Filter>include\lss\pde\1d\wave_type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\1d\wave_type\implicit_wave_solver_1d.hpp">
+      <Filter>include\lss\pde\1d\wave_type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\2d\heston_type\explicit_heston_solver_2d.hpp">
+      <Filter>include\lss\pde\2d\heston_type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\2d\heston_type\implicit_heston_solver_2d.hpp">
+      <Filter>include\lss\pde\2d\heston_type</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_coefficient_data_config_1d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_coefficient_data_config_2d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_data_config_1d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_data_config_2d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_explicit_solver_config.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_implicit_solver_config.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_initial_data_config_1d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_initial_data_config_2d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_source_data_config_1d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\heat_source_data_config_2d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\implicit_pde_scheme.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\splitting_config.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\wave_coefficient_data_config_1d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\wave_data_config_1d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\wave_explicit_solver_config.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\wave_implicit_solver_config.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\wave_initial_data_config_1d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\pde\configs\wave_source_data_config_1d.hpp">
+      <Filter>include\lss\pde\configs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\framework.hpp">
+      <Filter>include\lss</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pch.hpp">
+      <Filter>include\lss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

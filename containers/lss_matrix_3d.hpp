@@ -119,7 +119,7 @@ class matrix_3d
         @param  lay_idx
         @retval
     **/
-    LSS_API std::slice_array<double> row(std::size_t row_idx, std::size_t lay_idx);
+    LSS_API std::slice_array<double> row_array(std::size_t row_idx, std::size_t lay_idx);
 
     /**
         @brief Place a row into matrix_3d at (row_idx,lay_idx)
@@ -127,7 +127,21 @@ class matrix_3d
         @param  lay_idx
         @param  vals
     **/
-    LSS_API void row(std::size_t row_idx, std::size_t lay_idx, std::valarray<double> &&vals);
+    LSS_API void row_array(std::size_t row_idx, std::size_t lay_idx, std::valarray<double> &&vals);
+
+    /**
+        @brief Return a row plane from matrix_3d at (row_idx)
+        @param  row_idx
+        @retval
+    **/
+    LSS_API std::gslice_array<double> row_plane(std::size_t row_idx);
+
+    /**
+        @brief Place a row plane into matrix_3d at (row_idx)
+        @param  row_idx
+        @param  vals
+    **/
+    LSS_API void row_plane(std::size_t row_idx, std::valarray<double> &&vals);
 
     /**
         @brief Return a column from matrix_3d at (col_idx,lay_idx)
@@ -135,7 +149,7 @@ class matrix_3d
         @param  lay_idx
         @retval
     **/
-    LSS_API std::slice_array<double> column(std::size_t col_idx, std::size_t lay_idx);
+    LSS_API std::slice_array<double> column_array(std::size_t col_idx, std::size_t lay_idx);
 
     /**
         @brief Place a column into matrix_3d at (col_idx,lay_idx)
@@ -143,7 +157,21 @@ class matrix_3d
         @param  lay_idx
         @param  vals
     **/
-    LSS_API void column(std::size_t col_idx, std::size_t lay_idx, std::valarray<double> &&vals);
+    LSS_API void column_array(std::size_t col_idx, std::size_t lay_idx, std::valarray<double> &&vals);
+
+    /**
+        @brief Return a column plane from matrix_3d at (col_idx)
+        @param  col_idx
+        @retval
+    **/
+    LSS_API std::gslice_array<double> column_plane(std::size_t col_idx);
+
+    /**
+        @brief Place a column plane into matrix_3d at (col_idx)
+        @param  col_idx
+        @param  vals
+    **/
+    LSS_API void column_plane(std::size_t col_idx, std::valarray<double> &&vals);
 
     /**
         @brief Return a layer from matrix_3d at (row_idx,col_idx)
@@ -151,7 +179,7 @@ class matrix_3d
         @param  col_idx
         @retval
     **/
-    LSS_API std::slice_array<double> layer(std::size_t row_idx, std::size_t col_idx);
+    LSS_API std::slice_array<double> layer_array(std::size_t row_idx, std::size_t col_idx);
 
     /**
         @brief Place a layer into matrix_3d at (row_idx,col_idx)
@@ -159,7 +187,21 @@ class matrix_3d
         @param  col_idx
         @param  vals
     **/
-    LSS_API void layer(std::size_t row_idx, std::size_t col_idx, std::valarray<double> &&vals);
+    LSS_API void layer_array(std::size_t row_idx, std::size_t col_idx, std::valarray<double> &&vals);
+
+    /**
+        @brief Return a layer plane from matrix_3d at (lay_idx)
+        @param  lay_idx
+        @retval
+    **/
+    LSS_API std::gslice_array<double> layer_plane(std::size_t lay_idx);
+
+    /**
+        @brief Place a layer plane into matrix_3d at (lay_idx)
+        @param  lay_idx
+        @param  vals
+    **/
+    LSS_API void layer_plane(std::size_t lay_idx, std::valarray<double> &&vals);
 };
 
 using matrix_3d_ptr = sptr_t<matrix_3d>;

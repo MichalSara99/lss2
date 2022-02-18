@@ -203,6 +203,60 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     <ClCompile Include="discretization\lss_grid_config.cpp" />
     <ClCompile Include="discretization\lss_grid_config_hints.cpp" />
     <ClCompile Include="discretization\lss_grid_transform_config.cpp" />
+    <ClCompile Include="include\dllmain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\boundary_1d.cpp" />
+    <ClCompile Include="include\lss\boundary\boundary_2d.cpp" />
+    <ClCompile Include="include\lss\boundary\dirichlet_1d.cpp" />
+    <ClCompile Include="include\lss\boundary\dirichlet_2d.cpp" />
+    <ClCompile Include="include\lss\boundary\neumann_1d.cpp" />
+    <ClCompile Include="include\lss\boundary\neumann_2d.cpp" />
+    <ClCompile Include="include\lss\boundary\robin_1d.cpp" />
+    <ClCompile Include="include\lss\boundary\robin_2d.cpp" />
+    <ClCompile Include="include\lss\configs\discretization_config_1d.cpp" />
+    <ClCompile Include="include\lss\configs\discretization_config_2d.cpp" />
+    <ClCompile Include="include\lss\configs\discretization_config_ode.cpp" />
+    <ClCompile Include="include\lss\configs\grid_config_1d.cpp" />
+    <ClCompile Include="include\lss\configs\grid_config_2d.cpp" />
+    <ClCompile Include="include\lss\ode\2nd\implicit_ode_tp_solver.cpp" />
+    <ClCompile Include="include\lss\ode\configs\ode_coefficient_data_config.cpp" />
+    <ClCompile Include="include\lss\ode\configs\ode_data_config.cpp" />
+    <ClCompile Include="include\lss\ode\configs\ode_nonhom_data_config.cpp" />
+    <ClCompile Include="include\lss\ode\configs\ode_solver_config.cpp" />
+    <ClCompile Include="include\lss\output\output.cpp" />
+    <ClCompile Include="include\lss\pde\1d\heat_type\explicit_heat_solver_1d.cpp" />
+    <ClCompile Include="include\lss\pde\1d\heat_type\implicit_heat_solver_1d.cpp" />
+    <ClCompile Include="include\lss\pde\1d\wave_type\explicit_wave_solver_1d.cpp" />
+    <ClCompile Include="include\lss\pde\1d\wave_type\implicit_wave_solver_1d.cpp" />
+    <ClCompile Include="include\lss\pde\2d\heston_type\explicit_heston_solver_2d.cpp" />
+    <ClCompile Include="include\lss\pde\2d\heston_type\implicit_heston_solver_2d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_coefficient_data_config_1d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_coefficient_data_config_2d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_data_config_1d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_data_config_2d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_explicit_solver_config.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_implicit_solver_config.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_initial_data_config_1d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_initial_data_config_2d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_source_data_config_1d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\heat_source_data_config_2d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\implicit_pde_scheme.cpp" />
+    <ClCompile Include="include\lss\pde\configs\splitting_config.cpp" />
+    <ClCompile Include="include\lss\pde\configs\wave_coefficient_data_config_1d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\wave_data_config_1d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\wave_explicit_solver_config.cpp" />
+    <ClCompile Include="include\lss\pde\configs\wave_implicit_solver_config.cpp" />
+    <ClCompile Include="include\lss\pde\configs\wave_initial_data_config_1d.cpp" />
+    <ClCompile Include="include\lss\pde\configs\wave_source_data_config_1d.cpp" />
+    <ClCompile Include="include\lss\utilities\matrix_2d.cpp" />
+    <ClCompile Include="include\lss\utilities\matrix_3d.cpp" />
+    <ClCompile Include="include\lss\utilities\range.cpp" />
+    <ClCompile Include="include\pch.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="ode_solvers\lss_ode_data_config.cpp" />
     <ClCompile Include="ode_solvers\lss_ode_discretization_config.cpp" />
     <ClCompile Include="ode_solvers\lss_ode_solver_config.cpp" />
@@ -326,6 +380,60 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     <ClInclude Include="discretization\lss_grid_config.hpp" />
     <ClInclude Include="discretization\lss_grid_config_hints.hpp" />
     <ClInclude Include="discretization\lss_grid_transform_config.hpp" />
+    <ClInclude Include="include\framework.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\boundary_1d.hpp" />
+    <ClInclude Include="include\lss\boundary\boundary_2d.hpp" />
+    <ClInclude Include="include\lss\boundary\dirichlet_1d.hpp" />
+    <ClInclude Include="include\lss\boundary\dirichlet_2d.hpp" />
+    <ClInclude Include="include\lss\boundary\neumann_1d.hpp" />
+    <ClInclude Include="include\lss\boundary\neumann_2d.hpp" />
+    <ClInclude Include="include\lss\boundary\robin_1d.hpp" />
+    <ClInclude Include="include\lss\boundary\robin_2d.hpp" />
+    <ClInclude Include="include\lss\configs\discretization_config_1d.hpp" />
+    <ClInclude Include="include\lss\configs\discretization_config_2d.hpp" />
+    <ClInclude Include="include\lss\configs\discretization_config_ode.hpp" />
+    <ClInclude Include="include\lss\configs\grid_config_1d.hpp" />
+    <ClInclude Include="include\lss\configs\grid_config_2d.hpp" />
+    <ClInclude Include="include\lss\ode\2nd\implicit_ode_tp_solver.hpp" />
+    <ClInclude Include="include\lss\ode\configs\ode_coefficient_data_config.hpp" />
+    <ClInclude Include="include\lss\ode\configs\ode_data_config.hpp" />
+    <ClInclude Include="include\lss\ode\configs\ode_nonhom_data_config.hpp" />
+    <ClInclude Include="include\lss\ode\configs\ode_solver_config.hpp" />
+    <ClInclude Include="include\lss\output\output.hpp" />
+    <ClInclude Include="include\lss\pde\1d\heat_type\explicit_heat_solver_1d.hpp" />
+    <ClInclude Include="include\lss\pde\1d\heat_type\implicit_heat_solver_1d.hpp" />
+    <ClInclude Include="include\lss\pde\1d\wave_type\explicit_wave_solver_1d.hpp" />
+    <ClInclude Include="include\lss\pde\1d\wave_type\implicit_wave_solver_1d.hpp" />
+    <ClInclude Include="include\lss\pde\2d\heston_type\explicit_heston_solver_2d.hpp" />
+    <ClInclude Include="include\lss\pde\2d\heston_type\implicit_heston_solver_2d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_coefficient_data_config_1d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_coefficient_data_config_2d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_data_config_1d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_data_config_2d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_explicit_solver_config.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_implicit_solver_config.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_initial_data_config_1d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_initial_data_config_2d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_source_data_config_1d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\heat_source_data_config_2d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\implicit_pde_scheme.hpp" />
+    <ClInclude Include="include\lss\pde\configs\splitting_config.hpp" />
+    <ClInclude Include="include\lss\pde\configs\wave_coefficient_data_config_1d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\wave_data_config_1d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\wave_explicit_solver_config.hpp" />
+    <ClInclude Include="include\lss\pde\configs\wave_implicit_solver_config.hpp" />
+    <ClInclude Include="include\lss\pde\configs\wave_initial_data_config_1d.hpp" />
+    <ClInclude Include="include\lss\pde\configs\wave_source_data_config_1d.hpp" />
+    <ClInclude Include="include\lss\utilities\matrix_2d.hpp" />
+    <ClInclude Include="include\lss\utilities\matrix_3d.hpp" />
+    <ClInclude Include="include\lss\utilities\range.hpp" />
+    <ClInclude Include="include\pch.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="ode_solvers\lss_ode_data_config.hpp" />
     <ClInclude Include="ode_solvers\lss_ode_discretization_config.hpp" />
     <ClInclude Include="ode_solvers\lss_ode_solver_config.hpp" />

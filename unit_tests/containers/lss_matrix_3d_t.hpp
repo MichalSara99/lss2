@@ -45,4 +45,6 @@ extern void basic_matrix_3d();
 
 extern void slice_matrix_3d();
 
+extern void slice_planes_matrix_3d();
+
 #endif ///_MATRIX_3D_T_HPP_
