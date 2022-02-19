@@ -208,7 +208,114 @@ void heston_equation::solve(matrix_2d &solution)
 
 void heston_equation::solve(matrix_3d &solutions)
 {
-    throw std::exception("Not implemented.");
+    LSS_ASSERT((solutions.rows()) > 0 && (solutions.columns() > 0) && (solutions.layers() > 0),
+               "The input solution container must be initialized");
+
+    // get space ranges:
+    const auto &spaces = discretization_cfg_->space_range();
+    // across X:
+    const auto space_x = spaces.first;
+    // across Y:
+    const auto space_y = spaces.second;
+    // size of spaces discretization:
+    const auto &space_sizes = discretization_cfg_->number_of_space_points();
+    // size of time discretization:
+    const std::size_t time_size = discretization_cfg_->number_of_time_points();
+    const std::size_t space_size_x = std::get<0>(space_sizes);
+    const std::size_t space_size_y = std::get<1>(space_sizes);
+    // This is the proper size of the container:
+    LSS_ASSERT((solutions.columns() == space_size_y) && (solutions.rows() == space_size_x) &&
+                   (solutions.layers() == time_size),
+               "The input solution container must have the correct size");
+    // create grid_config:
+    auto const &grid_cfg = std::make_shared<grid_config_2d>(discretization_cfg_);
+    auto const &ver_boundary_ptr = heston_boundary_->vertical_upper();
+    auto const &hor_boundary_pair_ptr = heston_boundary_->horizontal_pair();
+    // create container to carry previous solution:
+    matrix_2d prev_sol(space_size_x, space_size_y, double{});
+    // create container to carry next solution:
+    matrix_2d next_sol(space_size_x, space_size_y, double{});
+    // discretize initial condition
+    d_2d::of_function(grid_cfg, heat_data_trans_cfg_->initial_condition(), prev_sol);
+    // get heat_source:
+    const bool is_heat_source_set = heat_data_trans_cfg_->is_heat_source_set();
+    // get heat_source:
+    auto const &heat_source = heat_data_trans_cfg_->heat_source();
+
+    if (solver_cfg_->memory_space() == memory_space_enum::Device)
+    {
+        if (solver_cfg_->tridiagonal_method() == tridiagonal_method_enum::CUDASolver)
+        {
+            typedef heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_method_enum::CUDASolver>
+                dev_cu_solver;
+
+            dev_cu_solver solver(ver_boundary_ptr, hor_boundary_pair_ptr, heat_data_trans_cfg_, discretization_cfg_,
+                                 splitting_method_cfg_, solver_cfg_, grid_cfg);
+            solver(prev_sol, next_sol, is_heat_source_set, heat_source, solutions);
+        }
+        else if (solver_cfg_->tridiagonal_method() == tridiagonal_method_enum::SORSolver)
+        {
+            typedef heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_method_enum::SORSolver>
+                dev_sor_solver;
+
+            LSS_ASSERT(!solver_config_details_.empty(), "solver_config_details map must not be empty");
+            double omega_value = solver_config_details_["sor_omega"];
+            dev_sor_solver solver(ver_boundary_ptr, hor_boundary_pair_ptr, heat_data_trans_cfg_, discretization_cfg_,
+                                  splitting_method_cfg_, solver_cfg_, grid_cfg);
+            solver(prev_sol, next_sol, is_heat_source_set, heat_source, omega_value, solutions);
+        }
+        else
+        {
+            throw std::exception("Not supported on Device");
+        }
+    }
+    else if (solver_cfg_->memory_space() == memory_space_enum::Host)
+    {
+        if (solver_cfg_->tridiagonal_method() == tridiagonal_method_enum::CUDASolver)
+        {
+            typedef heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::CUDASolver>
+                host_cu_solver;
+
+            host_cu_solver solver(ver_boundary_ptr, hor_boundary_pair_ptr, heat_data_trans_cfg_, discretization_cfg_,
+                                  splitting_method_cfg_, solver_cfg_, grid_cfg);
+            solver(prev_sol, next_sol, is_heat_source_set, heat_source, solutions);
+        }
+        else if (solver_cfg_->tridiagonal_method() == tridiagonal_method_enum::SORSolver)
+        {
+            typedef heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::SORSolver>
+                host_sor_solver;
+
+            LSS_ASSERT(!solver_config_details_.empty(), "solver_config_details map must not be empty");
+            double omega_value = solver_config_details_["sor_omega"];
+            host_sor_solver solver(ver_boundary_ptr, hor_boundary_pair_ptr, heat_data_trans_cfg_, discretization_cfg_,
+                                   splitting_method_cfg_, solver_cfg_, grid_cfg);
+            solver(prev_sol, next_sol, is_heat_source_set, heat_source, omega_value, solutions);
+        }
+        else if (solver_cfg_->tridiagonal_method() == tridiagonal_method_enum::DoubleSweepSolver)
+        {
+            typedef heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::DoubleSweepSolver>
+                host_dss_solver;
+            host_dss_solver solver(ver_boundary_ptr, hor_boundary_pair_ptr, heat_data_trans_cfg_, discretization_cfg_,
+                                   splitting_method_cfg_, solver_cfg_, grid_cfg);
+            solver(prev_sol, next_sol, is_heat_source_set, heat_source, solutions);
+        }
+        else if (solver_cfg_->tridiagonal_method() == tridiagonal_method_enum::ThomasLUSolver)
+        {
+            typedef heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::ThomasLUSolver>
+                host_lus_solver;
+            host_lus_solver solver(ver_boundary_ptr, hor_boundary_pair_ptr, heat_data_trans_cfg_, discretization_cfg_,
+                                   splitting_method_cfg_, solver_cfg_, grid_cfg);
+            solver(prev_sol, next_sol, is_heat_source_set, heat_source, solutions);
+        }
+        else
+        {
+            throw std::exception("Not supported on Host");
+        }
+    }
+    else
+    {
+        throw std::exception("Unreachable");
+    }
 }
 
 } // namespace implicit_solvers
@@ -323,7 +430,58 @@ void heston_equation::solve(matrix_2d &solution)
 
 void heston_equation::solve(matrix_3d &solutions)
 {
-    throw std::exception("Not implemented.");
+    LSS_ASSERT((solutions.rows()) > 0 && (solutions.columns() > 0) && (solutions.layers() > 0),
+               "The input solution container must be initialized");
+
+    // get space ranges:
+    const auto &spaces = discretization_cfg_->space_range();
+    // across X:
+    const auto space_x = spaces.first;
+    // across Y:
+    const auto space_y = spaces.second;
+    // size of spaces discretization:
+    const auto &space_sizes = discretization_cfg_->number_of_space_points();
+    const std::size_t space_size_x = std::get<0>(space_sizes);
+    const std::size_t space_size_y = std::get<1>(space_sizes);
+    // size of time discretization:
+    const std::size_t time_size = discretization_cfg_->number_of_time_points();
+    // This is the proper size of the container:
+    LSS_ASSERT((solutions.columns() == space_size_y) && (solutions.rows() == space_size_x) &&
+                   (solutions.layers() == time_size),
+               "The input solution container must have the correct size");
+    // create grid_config:
+    auto const &grid_cfg = std::make_shared<grid_config_2d>(discretization_cfg_);
+    auto const &ver_boundary_ptr = heston_boundary_->vertical_upper();
+    auto const &hor_boundary_pair_ptr = heston_boundary_->horizontal_pair();
+    // create container to carry previous solution:
+    matrix_2d prev_sol(space_size_x, space_size_y, double{});
+    // create container to carry next solution:
+    matrix_2d next_sol(space_size_x, space_size_y, double{});
+    // discretize initial condition
+    d_2d::of_function(grid_cfg, heat_data_trans_cfg_->initial_condition(), prev_sol);
+    // get heat_source:
+    const bool is_heat_source_set = heat_data_trans_cfg_->is_heat_source_set();
+    // get heat_source:
+    auto const &heat_source = heat_data_trans_cfg_->heat_source();
+
+    if (solver_cfg_->memory_space() == memory_space_enum::Device)
+    {
+        typedef heston_equation_explicit_kernel<memory_space_enum::Device> device_solver;
+        device_solver solver(ver_boundary_ptr, hor_boundary_pair_ptr, heat_data_trans_cfg_, discretization_cfg_,
+                             solver_cfg_, grid_cfg);
+        solver(prev_sol, next_sol, is_heat_source_set, heat_source, solutions);
+    }
+    else if (solver_cfg_->memory_space() == memory_space_enum::Host)
+    {
+        typedef heston_equation_explicit_kernel<memory_space_enum::Host> host_solver;
+        host_solver solver(ver_boundary_ptr, hor_boundary_pair_ptr, heat_data_trans_cfg_, discretization_cfg_,
+                           solver_cfg_, grid_cfg);
+        solver(prev_sol, next_sol, is_heat_source_set, heat_source, solutions);
+    }
+    else
+    {
+        throw std::exception("Unreachable");
+    }
 }
 
 } // namespace explicit_solvers

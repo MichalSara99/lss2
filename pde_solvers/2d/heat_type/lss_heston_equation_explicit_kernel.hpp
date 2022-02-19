@@ -69,12 +69,8 @@ template <> class heston_equation_explicit_kernel<memory_space_enum::Device>
     void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
                     std::function<double(double, double, double)> const &heat_source);
 
-    // TODO: this may be still implemented
-    // void operator()(container_2d<by_enum::Row> &prev_solution, container_2d<by_enum::Row> &next_solution,
-    //                 bool is_heat_sourse_set, std::function<fp_type(fp_type, fp_type, fp_type)> const &heat_source,
-    //                 rcontainer_3d_t &solutions)
-    //{
-    // }
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, matrix_3d &solutions);
 };
 
 // ===================================================================
@@ -102,11 +98,8 @@ template <> class heston_equation_explicit_kernel<memory_space_enum::Host>
     void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
                     std::function<double(double, double, double)> const &heat_source);
 
-    // TODO: this may be still implemented
-    // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
-    //                std::function<fp_type(fp_type, fp_type, fp_type)> const &heat_source, rcontainer_3d_t &solutions)
-    //{
-    //}
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, matrix_3d &solutions);
 };
 
 } // namespace two_dimensional

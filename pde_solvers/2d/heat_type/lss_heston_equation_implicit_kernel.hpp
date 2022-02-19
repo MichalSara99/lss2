@@ -35,6 +35,7 @@ namespace two_dimensional
 using lss_boundary::boundary_2d_pair;
 using lss_boundary::boundary_2d_ptr;
 using lss_containers::matrix_2d;
+using lss_containers::matrix_3d;
 using lss_enumerations::memory_space_enum;
 using lss_enumerations::tridiagonal_method_enum;
 using lss_grids::grid_config_2d_ptr;
@@ -72,11 +73,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Device, tri
     void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
                     std::function<double(double, double, double)> const &heat_source);
 
-    // TODO: may be implemented
-    // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
-    //                std::function<fp_type(fp_type, fp_type, fp_type)> const &heat_source, rcontainer_3d_t &solutions)
-    //{
-    //}
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, matrix_3d &solutions);
 };
 
 template <> class heston_equation_implicit_kernel<memory_space_enum::Device, tridiagonal_method_enum::SORSolver>
@@ -103,12 +101,9 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Device, tri
     void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
                     std::function<double(double, double, double)> const &heat_source, double omega_value);
 
-    // TODO: may be implemented
-    // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
-    //                 std::function<fp_type(fp_type, fp_type, fp_type)> const &heat_source, fp_type omega_value,
-    //                 rcontainer_3d_t &solutions)
-    //{
-    // }
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, double omega_value,
+                    matrix_3d &solutions);
 };
 
 // ===================================================================
@@ -138,11 +133,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridi
     void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
                     std::function<double(double, double, double)> const &heat_source);
 
-    // TODO: may be implemented
-    // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
-    //                 std::function<fp_type(fp_type, fp_type)> const &heat_source, rcontainer_3d_t &solutions)
-    //{
-    // }
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, matrix_3d &solutions);
 };
 
 template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::SORSolver>
@@ -168,12 +160,9 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridi
     void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
                     std::function<double(double, double, double)> const &heat_source, double omega_value);
 
-    // TODO: may be implemented
-    // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
-    //                 std::function<fp_type(fp_type, fp_type, fp_type)> const &heat_source, fp_type omega_value,
-    //                 rcontainer_3d_t &solutions)
-    //{
-    // }
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, double omega_value,
+                    matrix_3d &solutions);
 };
 
 template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::DoubleSweepSolver>
@@ -200,11 +189,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridi
     void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
                     std::function<double(double, double, double)> const &heat_source);
 
-    // TODO: may be implemented
-    // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
-    //                 std::function<fp_type(fp_type, fp_type, fp_type)> const &heat_source, rcontainer_3d_t &solutions)
-    //{
-    // }
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, matrix_3d &solutions);
 };
 
 template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridiagonal_method_enum::ThomasLUSolver>
@@ -231,11 +217,8 @@ template <> class heston_equation_implicit_kernel<memory_space_enum::Host, tridi
     void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
                     std::function<double(double, double, double)> const &heat_source);
 
-    // TODO: may be implemented
-    // void operator()(rcontainer_2d_t &prev_solution, rcontainer_2d_t &next_solution, bool is_heat_sourse_set,
-    //                 std::function<fp_type(fp_type, fp_type, fp_type)> const &heat_source, rcontainer_3d_t &solutions)
-    //{
-    // }
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source, matrix_3d &solutions);
 };
 } // namespace two_dimensional
 

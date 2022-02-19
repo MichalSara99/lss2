@@ -49,6 +49,7 @@ void heat_euler_scheme_2d::operator()(matrix_2d &prev_solution, matrix_2d &next_
         std::make_shared<heat_euler_solver_method_2d>(euler_coeffs_, grid_cfg_, is_heat_sourse_set);
     if (is_heat_sourse_set)
     {
+        throw std::exception("Not yet implemented.");
         // TODO: to be implemented!!!
         //  loop::run(solver_method_ptr, boundary_pair_, timer, last_time_idx, k,
         //  traverse_dir, heat_source, solution);
@@ -57,6 +58,31 @@ void heat_euler_scheme_2d::operator()(matrix_2d &prev_solution, matrix_2d &next_
     {
         explicit_time_loop_2d::run(solver_method_ptr, heston_boundary_, boundary_pair_hor_, boundary_ver_, grid_cfg_,
                                    timer, last_time_idx, k, traverse_dir, prev_solution, next_solution);
+    }
+}
+
+void heat_euler_scheme_2d::operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                                      std::function<double(double, double, double)> const &heat_source,
+                                      traverse_direction_enum traverse_dir, matrix_3d &solutions)
+{
+    auto const timer = discretization_cfg_->time_range();
+    const double k = discretization_cfg_->time_step();
+    // last time index:
+    const std::size_t last_time_idx = discretization_cfg_->number_of_time_points() - 1;
+    auto const &solver_method_ptr =
+        std::make_shared<heat_euler_solver_method_2d>(euler_coeffs_, grid_cfg_, is_heat_sourse_set);
+    if (is_heat_sourse_set)
+    {
+        throw std::exception("Not yet implemented.");
+        // TODO: to be implemented!!!
+        //  loop::run(solver_method_ptr, boundary_pair_, timer, last_time_idx, k,
+        //  traverse_dir, heat_source, solution);
+    }
+    else
+    {
+        explicit_time_loop_2d::run_with_stepping(solver_method_ptr, heston_boundary_, boundary_pair_hor_, boundary_ver_,
+                                                 grid_cfg_, timer, last_time_idx, k, traverse_dir, prev_solution,
+                                                 next_solution, solutions);
     }
 }
 

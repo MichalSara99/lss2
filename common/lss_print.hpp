@@ -80,9 +80,20 @@ hints
     @param container
     @param out
 **/
-// extern void print(pde_discretization_config_3d_ptr const &pde_discretization_config,
-//                   grid_config_hints_3d_ptr const &grid_config_hints, container_3d<by_enum::RowPlane> const
-//                   &container, std::ostream &out = std::cout);
+extern void print(pde_discretization_config_2d_ptr const &pde_discretization_config,
+                  grid_config_hints_2d_ptr const &grid_config_hints, matrix_3d const &container,
+                  std::ostream &out = std::cout);
+/**
+    @brief Prints contents of the container using passed discretization and grid
+    hints
+    @param pde_discretization_config
+    @param grid_config_hints
+    @param container
+    @param out
+**/
+extern void print(pde_discretization_config_3d_ptr const &pde_discretization_config,
+                  grid_config_hints_3d_ptr const &grid_config_hints, matrix_3d const &container,
+                  std::ostream &out = std::cout);
 
 } // namespace lss_print
 

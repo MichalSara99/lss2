@@ -89,7 +89,7 @@ class robin_boundary_3d final : public boundary_3d
     LSS_API double value(double time, double space_1_arg, double space_2_arg) const override;
 };
 
-using robin_boundary_2d_ptr = sptr_t<robin_boundary_2d>;
+using robin_boundary_3d_ptr = sptr_t<robin_boundary_3d>;
 } // namespace lss_boundary
 
 #endif ///_LSS_ROBIN_BOUNDARY_1D_HPP_

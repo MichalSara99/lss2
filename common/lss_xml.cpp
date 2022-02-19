@@ -163,10 +163,9 @@ void xml(pde_discretization_config_2d_ptr const &pde_discretization_config,
     out << values[values.size() - 1];
     out << "</VALUES></ORDINATE></AXES></SURFACE>";
 }
-/*
+
 void xml(pde_discretization_config_3d_ptr const &pde_discretization_config,
-         grid_config_hints_3d_ptr const &grid_config_hints, container_3d<by_enum::LayerPlane> const &container,
-         std::ostream &out)
+         grid_config_hints_3d_ptr const &grid_config_hints, matrix_3d const &container, std::ostream &out)
 {
     const auto &space_sizes = pde_discretization_config->number_of_space_points();
     LSS_ASSERT((container.columns() == std::get<1>(space_sizes)) && (container.rows() == std::get<0>(space_sizes)) &&
@@ -226,5 +225,5 @@ void xml(pde_discretization_config_3d_ptr const &pde_discretization_config,
     out << values[values.size() - 1];
     out << "</VALUES></ORDINATE></AXES></SURFACE>";
 }
-*/
+
 } // namespace lss_xml

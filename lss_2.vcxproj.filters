@@ -759,6 +759,15 @@
     <ClCompile Include="include\pch.cpp">
       <Filter>include\lss</Filter>
     </ClCompile>
+    <ClCompile Include="include\lss\boundary\boundary_3d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\neumann_3d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="include\lss\boundary\robin_3d.cpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boundaries\lss_boundary.hpp">
@@ -1303,6 +1312,15 @@
     </ClInclude>
     <ClInclude Include="include\pch.hpp">
       <Filter>include\lss</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\boundary_3d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\neumann_3d.hpp">
+      <Filter>include\lss\boundary</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lss\boundary\robin_3d.hpp">
+      <Filter>include\lss\boundary</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

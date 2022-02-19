@@ -15,6 +15,7 @@
 #include "../../../../boundaries/lss_boundary.hpp"
 #include "../../../../common/lss_enumerations.hpp"
 #include "../../../../containers/lss_matrix_2d.hpp"
+#include "../../../../containers/lss_matrix_3d.hpp"
 #include "../../../../discretization/lss_grid_config.hpp"
 #include "../../../lss_pde_discretization_config.hpp"
 #include "../boundary_solver/lss_heston_boundary_solver.hpp"
@@ -31,6 +32,7 @@ namespace two_dimensional
 using lss_boundary::boundary_2d_pair;
 using lss_boundary::boundary_2d_ptr;
 using lss_containers::matrix_2d;
+using lss_containers::matrix_3d;
 using lss_enumerations::traverse_direction_enum;
 using lss_grids::grid_config_2d_ptr;
 
@@ -63,6 +65,10 @@ class heat_euler_scheme_2d
     void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
                     std::function<double(double, double, double)> const &heat_source,
                     traverse_direction_enum traverse_dir);
+
+    void operator()(matrix_2d &prev_solution, matrix_2d &next_solution, bool is_heat_sourse_set,
+                    std::function<double(double, double, double)> const &heat_source,
+                    traverse_direction_enum traverse_dir, matrix_3d &solutions);
 };
 } // namespace two_dimensional
 } // namespace lss_pde_solvers

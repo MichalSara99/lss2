@@ -209,12 +209,15 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     </ClCompile>
     <ClCompile Include="include\lss\boundary\boundary_1d.cpp" />
     <ClCompile Include="include\lss\boundary\boundary_2d.cpp" />
+    <ClCompile Include="include\lss\boundary\boundary_3d.cpp" />
     <ClCompile Include="include\lss\boundary\dirichlet_1d.cpp" />
     <ClCompile Include="include\lss\boundary\dirichlet_2d.cpp" />
     <ClCompile Include="include\lss\boundary\neumann_1d.cpp" />
     <ClCompile Include="include\lss\boundary\neumann_2d.cpp" />
+    <ClCompile Include="include\lss\boundary\neumann_3d.cpp" />
     <ClCompile Include="include\lss\boundary\robin_1d.cpp" />
     <ClCompile Include="include\lss\boundary\robin_2d.cpp" />
+    <ClCompile Include="include\lss\boundary\robin_3d.cpp" />
     <ClCompile Include="include\lss\configs\discretization_config_1d.cpp" />
     <ClCompile Include="include\lss\configs\discretization_config_2d.cpp" />
     <ClCompile Include="include\lss\configs\discretization_config_ode.cpp" />
@@ -386,12 +389,15 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     </ClInclude>
     <ClInclude Include="include\lss\boundary\boundary_1d.hpp" />
     <ClInclude Include="include\lss\boundary\boundary_2d.hpp" />
+    <ClInclude Include="include\lss\boundary\boundary_3d.hpp" />
     <ClInclude Include="include\lss\boundary\dirichlet_1d.hpp" />
     <ClInclude Include="include\lss\boundary\dirichlet_2d.hpp" />
     <ClInclude Include="include\lss\boundary\neumann_1d.hpp" />
     <ClInclude Include="include\lss\boundary\neumann_2d.hpp" />
+    <ClInclude Include="include\lss\boundary\neumann_3d.hpp" />
     <ClInclude Include="include\lss\boundary\robin_1d.hpp" />
     <ClInclude Include="include\lss\boundary\robin_2d.hpp" />
+    <ClInclude Include="include\lss\boundary\robin_3d.hpp" />
     <ClInclude Include="include\lss\configs\discretization_config_1d.hpp" />
     <ClInclude Include="include\lss\configs\discretization_config_2d.hpp" />
     <ClInclude Include="include\lss\configs\discretization_config_ode.hpp" />

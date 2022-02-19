@@ -127,7 +127,7 @@ class heston_equation
 
     /**
         @brief Get all solutions in time (surface) of the PDE
-        @param solutions - 3D container for all the solutions in time
+        @param solutions - 3D container for all the solutions in time (layers are the solutions in time)
     **/
     LSS_API void solve(matrix_3d &solutions);
 };
@@ -215,7 +215,8 @@ class heston_equation
 
     /**
         @brief Get all solutions in time (surface) of the PDE
-        @param solutions - 3D container for all the solutions in time
+        @param solutions - 3D container for all the solutions in time (layers
+    are the solutions in time)
     **/
     LSS_API void solve(matrix_3d &solutions);
 };
