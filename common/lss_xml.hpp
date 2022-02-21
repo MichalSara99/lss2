@@ -73,6 +73,18 @@ extern void xml(pde_discretization_config_2d_ptr const &pde_discretization_confi
                 std::ostream &out = std::cout);
 
 /**
+    @brief Prints contents of the container using passed discretization and grid
+hints
+    @param pde_discretization_config
+    @param grid_config_hints
+    @param container
+    @param out
+**/
+extern void xml(pde_discretization_config_2d_ptr const &pde_discretization_config,
+                grid_config_hints_2d_ptr const &grid_config_hints, matrix_3d const &container,
+                std::ostream &out = std::cout);
+
+/**
     @brief Prints contents of the container using passed discretization and grid hints
     @param pde_discretization_config
     @param grid_config_hints

@@ -170,7 +170,7 @@ void impl_sabr_equation_double_sweep_solver_crank_nicolson_stepping()
     auto const &rho = 0.6;
     auto const &beta = 0.7;
     // number of space subdivisions for spot:
-    std::size_t const Sd = 50;
+    std::size_t const Sd = 70;
     // number of space subdivision for volatility:
     std::size_t const Vd = 50;
     // number of time subdivisions:

@@ -58,6 +58,10 @@ extern void impl_heston_cuda_qr_crank_nicolson_dr_srf_xml();
 
 extern void test_impl_heston_cuda_qr_cn_dr_srf_xml();
 
+extern void impl_heston_upoutcall_barrier_thomas_lu_cn_srf_xml_stepping();
+
+extern void test_impl_heston_thomas_lu_cn_srf_xml_stepping();
+
 extern void impl_heston_thomas_lu_cn_srf_xml();
 
 extern void impl_heston_upoutcall_barrier_thomas_lu_cn_srf_xml();
@@ -71,6 +75,8 @@ extern void impl_heston_downoutput_barrier_put_thomas_lu_cn_srf_xml();
 extern void test_impl_heston_thomas_lu_cn_srf_xml();
 
 extern void impl_sabr_double_sweep_cn_srf_xml();
+
+extern void impl_sabr_double_sweep_cn_srf_xml_stepping();
 
 extern void impl_sabr_barrier_double_sweep_cn_srf_xml();
 

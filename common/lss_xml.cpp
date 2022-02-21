@@ -164,6 +164,69 @@ void xml(pde_discretization_config_2d_ptr const &pde_discretization_config,
     out << "</VALUES></ORDINATE></AXES></SURFACE>";
 }
 
+void xml(pde_discretization_config_2d_ptr const &pde_discretization_config,
+         grid_config_hints_2d_ptr const &grid_config_hints, matrix_3d const &container, std::ostream &out)
+{
+    const auto &space_sizes = pde_discretization_config->number_of_space_points();
+    const auto &time_size = pde_discretization_config->number_of_time_points();
+    LSS_ASSERT((container.columns() == std::get<1>(space_sizes)) && (container.rows() == std::get<0>(space_sizes)) &&
+                   (container.layers() == time_size),
+               "The input cont container must have the correct size");
+    const double k = pde_discretization_config->time_step();
+    const auto &time = pde_discretization_config->time_range();
+    const double time_start = time->lower();
+    // create grid_config:
+    auto const &grid_cfg = std::make_shared<grid_config_2d>(pde_discretization_config);
+    // create grid_transform_config:
+    auto const &grid_trans_cfg =
+        std::make_shared<grid_transform_config_2d>(pde_discretization_config, grid_config_hints);
+    const std::string grid_type = (grid_config_hints->grid() == grid_enum::Uniform) ? "Uniform" : "Nonuniform";
+    out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?><SURFACE><ATTRIBUTES><GRID>" << grid_type << "</GRID>";
+    out << "<TYPE>SPACE_SPACE_TIME</TYPE>";
+    if (grid_config_hints->grid() == grid_enum::Nonuniform)
+    {
+        out << "<ACCUMULATION_POINT>" << grid_config_hints->accumulation_point() << "</ACCUMULATION_POINT>";
+    }
+    out << "</ATTRIBUTES><AXES><ABSCISSA><SIZE>" << space_sizes.first << "</SIZE><POINTS>";
+
+    double m{}, zeta{}, eta{};
+    for (std::size_t t = 0; t < space_sizes.first - 1; ++t)
+    {
+        zeta = grid_2d::value_1(grid_cfg, t);
+        out << grid_2d::transformed_value_1(grid_trans_cfg, zeta);
+        out << ",";
+    }
+    zeta = grid_2d::value_1(grid_cfg, space_sizes.first - 1);
+    out << grid_2d::transformed_value_1(grid_trans_cfg, zeta);
+    out << "</POINTS></ABSCISSA><ABSCISSA><SIZE>" << space_sizes.second << "</SIZE><POINTS>";
+    for (std::size_t t = 0; t < space_sizes.second - 1; ++t)
+    {
+        eta = grid_2d::value_2(grid_cfg, t);
+        out << grid_2d::transformed_value_2(grid_trans_cfg, eta);
+        out << ",";
+    }
+    eta = grid_2d::value_2(grid_cfg, space_sizes.second - 1);
+    out << grid_2d::transformed_value_2(grid_trans_cfg, eta);
+    out << "</POINTS></ABSCISSA><ABSCISSA><SIZE>" << time_size << "</SIZE><TIME_POINTS>";
+    for (std::size_t t = 0; t < time_size - 1; ++t)
+    {
+        m = static_cast<double>(t);
+        out << (time_start + m * k);
+        out << ",";
+    }
+    m = static_cast<double>(time_size - 1);
+    out << (time_start + m * k);
+    out << "</TIME_POINTS></ABSCISSA><ORDINATE><ROW_SIZE> " << space_sizes.first << "</ROW_SIZE><COLUMN_SIZE>"
+        << space_sizes.second << "</COLUMN_SIZE><LAYER_SIZE>" << time_size << "</LAYER_SIZE><VALUES>";
+    auto const &values = container.data();
+    for (std::size_t t = 0; t < values.size() - 1; ++t)
+    {
+        out << values[t] << ",";
+    }
+    out << values[values.size() - 1];
+    out << "</VALUES></ORDINATE></AXES></SURFACE>";
+}
+
 void xml(pde_discretization_config_3d_ptr const &pde_discretization_config,
          grid_config_hints_3d_ptr const &grid_config_hints, matrix_3d const &container, std::ostream &out)
 {

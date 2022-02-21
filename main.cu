@@ -213,6 +213,7 @@ int main()
   // test_impl_w_bvp_host_dss_srf_xml();
   // test_impl_pw_neumann_bvp_cuda_device_qr_srf_xml();
   // test_impl_heston_cuda_qr_cn_dr_srf_xml();
+  // test_impl_heston_thomas_lu_cn_srf_xml_stepping();
   // test_impl_heston_thomas_lu_cn_srf_xml();
   // test_impl_sabr_double_sweep_cn_srf_xml();
   // test_impl_heston_thomas_lu_dr_cn_srf_xml();

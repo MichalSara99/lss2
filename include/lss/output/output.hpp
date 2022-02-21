@@ -14,6 +14,7 @@
 #include "../../lss/configs/grid_config_1d.hpp"
 #include "../../lss/configs/grid_config_2d.hpp"
 #include "../../lss/utilities/matrix_2d.hpp"
+#include "../../lss/utilities/matrix_3d.hpp"
 
 namespace lss
 {
@@ -38,6 +39,10 @@ LSS_API extern void output_surface(discretization_config_1d_ptr const &discretiz
 
 LSS_API extern void output_surface(discretization_config_2d_ptr const &discretization_config,
                                    grid_config_2d_ptr const &grid_config_hints, matrix_2d const &container, to to,
+                                   std::ostream &out = std::cout);
+
+LSS_API extern void output_surface(discretization_config_2d_ptr const &discretization_config,
+                                   grid_config_2d_ptr const &grid_config_hints, matrix_3d const &container, to to,
                                    std::ostream &out = std::cout);
 
 } // namespace lss

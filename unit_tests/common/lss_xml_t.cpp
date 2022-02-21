@@ -1756,6 +1756,110 @@ void impl_heston_upoutcall_barrier_thomas_lu_cn_srf_xml()
     std::cout << "Numerical solution has been saved to XML file: " << file_name_num << "\n";
 }
 
+void impl_heston_upoutcall_barrier_thomas_lu_cn_srf_xml_stepping()
+{
+    const std::string test_name_num{"heston_upoutcall_barrier_thomas_lu_cn_dr_srf_stepping_numerical"};
+    using lss_pde_solvers::default_heat_solver_configs::host_bwd_tlusolver_cn_solver_config_ptr;
+
+    std::cout << "============================================================\n";
+    std::cout << "Solving Boundary-value Heston Call equation: \n\n";
+    std::cout << " Using Thomas LU algo with implicit Crank-Nicolson method\n\n";
+    std::cout << " Value type: " << typeid(double).name() << "\n\n";
+    std::cout << " U_t(s,v,t) = 0.5*v*s*s*U_ss(s,v,t) + 0.5*sig*sig*v*U_vv(s,v,t)"
+                 " + rho*sig*v*s*U_sv(s,v,t) + r*s*U_s(s,v,t)"
+                 " + [k*(theta-v)-lambda*v]*U_v(s,v,t) - r*U(s,v,t)\n\n";
+    std::cout << " where\n\n";
+    std::cout << " B = 150, 50 < s < 200, 0 < v < 1, and 0 < t < 1,\n";
+    std::cout << " U(50,v,t) = 0 and  U(B,v,t) = 0, 0 < t < 1\n";
+    std::cout << " r*s*U_s(s,0,t)+k*theta*U_v(s,0,t)-rU(s,0,t)-U_t(s,0,t) = 0,"
+                 "0 < t < 1\n";
+    std::cout << " U_v(s,1,t) = 0, 0 < t < 1\n";
+    std::cout << " U(s,v,T) = max(0,s - K) if s < B, else 0.0 for s in <50,200> \n\n";
+    std::cout << "============================================================\n";
+
+    // set up call option parameters:
+    auto const &strike = 100.0;
+    auto const &barrier = 150.0;
+    auto const &maturity = 1.0;
+    auto const &rate = 0.03;
+    auto const &sig_sig = 0.3;
+    auto const &sig_kappa = 2.0;
+    auto const &sig_theta = 0.2;
+    auto const &rho = 0.2;
+    // number of space subdivisions for spot:
+    std::size_t const Sd = 150;
+    // number of space subdivision for volatility:
+    std::size_t const Vd = 50;
+    // number of time subdivisions:
+    std::size_t const Td = 200;
+    // space Spot range:
+    auto const &spacex_range = std::make_shared<range>(50.0, 200.0);
+    // space Vol range:
+    auto const &spacey_range = std::make_shared<range>(0.0, 1.2);
+    // time range
+    auto const &time_range = std::make_shared<range>(0.0, maturity);
+    // discretization config:
+    auto const discretization_ptr =
+        std::make_shared<pde_discretization_config_2d>(spacex_range, spacey_range, Sd, Vd, time_range, Td);
+    // coeffs:
+    auto a = [=](double t, double s, double v) { return (0.5 * v * s * s); };
+    auto b = [=](double t, double s, double v) { return (0.5 * sig_sig * sig_sig * v); };
+    auto c = [=](double t, double s, double v) { return (rho * sig_sig * v * s); };
+    auto d = [=](double t, double s, double v) { return (rate * s); };
+    auto e = [=](double t, double s, double v) { return (sig_kappa * (sig_theta - v)); };
+    auto f = [=](double t, double s, double v) { return (-rate); };
+    auto const heat_coeffs_data_ptr = std::make_shared<heat_coefficient_data_config_2d>(a, b, c, d, e, f);
+    // terminal condition:
+    auto terminal_condition = [=](double s, double v) { return ((s < barrier) ? std::max(0.0, s - strike) : 0.0); };
+    auto const heat_init_data_ptr = std::make_shared<heat_initial_data_config_2d>(terminal_condition);
+    // heat data config:
+    auto const heat_data_ptr = std::make_shared<heat_data_config_2d>(heat_coeffs_data_ptr, heat_init_data_ptr);
+    // horizontal spot boundary conditions:
+    auto const &dirichlet_s_low = [=](double t, double v) { return 0.0; };
+    auto const &dirichlet_s_high = [=](double t, double v) { return 0.0; };
+    auto const &boundary_low_ptr = std::make_shared<dirichlet_boundary_2d>(dirichlet_s_low);
+    auto const &boundary_high_ptr = std::make_shared<dirichlet_boundary_2d>(dirichlet_s_high);
+    auto const &horizontal_boundary_pair = std::make_pair(boundary_low_ptr, boundary_high_ptr);
+    // vertical upper vol boundary:
+    auto const &neumann_high = [=](double t, double s) { return 0.0; };
+    auto const &vertical_upper_boundary_ptr = std::make_shared<neumann_boundary_2d>(neumann_high);
+    // splitting method configuration:
+    auto const &splitting_config_ptr =
+        std::make_shared<splitting_method_config>(splitting_method_enum::DouglasRachford);
+    // grid config:
+    auto const alpha_scale = 3.;
+    auto const beta_scale = 50.;
+    auto const &grid_config_hints_ptr =
+        std::make_shared<grid_config_hints_2d>(strike, alpha_scale, beta_scale, grid_enum::Nonuniform);
+
+    // initialize pde solver
+    heston_equation pdesolver(heat_data_ptr, discretization_ptr, vertical_upper_boundary_ptr, horizontal_boundary_pair,
+                              splitting_config_ptr, grid_config_hints_ptr, host_bwd_tlusolver_cn_solver_config_ptr);
+    // prepare container for solution:
+    matrix_3d solution(Sd, Vd, Td, double{});
+    // get the solution:
+    pdesolver.solve(solution);
+
+    std::stringstream ssn;
+    ssn << "outputs/xmls/" << test_name_num << ".xml";
+    std::string file_name_num{ssn.str()};
+    std::ofstream numerical(file_name_num);
+    xml(discretization_ptr, grid_config_hints_ptr, solution, numerical);
+    numerical.close();
+    std::cout << "Numerical solution has been saved to XML file: " << file_name_num << "\n";
+}
+
+void test_impl_heston_thomas_lu_cn_srf_xml_stepping()
+{
+    std::cout << "============================================================\n";
+    std::cout << "======== Implicit Heston Equation (Thomas LU Solver) =======\n";
+    std::cout << "============================================================\n";
+
+    impl_heston_upoutcall_barrier_thomas_lu_cn_srf_xml_stepping();
+
+    std::cout << "============================================================\n";
+}
+
 void impl_heston_downoutcall_barrier_put_thomas_lu_cn_srf_xml()
 {
     const std::string test_name_num{"heston_downoutcall_barrier_put_thomas_lu_cn_dr_srf_numerical"};
@@ -2147,6 +2251,103 @@ void impl_sabr_double_sweep_cn_srf_xml()
     std::cout << "Numerical solution has been saved to XML file: " << file_name_num << "\n";
 }
 
+void impl_sabr_double_sweep_cn_srf_xml_stepping()
+{
+    const std::string test_name_num{"sabr_double_sweep_cn_srf_numerical_stepping"};
+    using lss_pde_solvers::default_heat_solver_configs::host_bwd_dssolver_cn_solver_config_ptr;
+
+    std::cout << "============================================================\n";
+    std::cout << "Solving Boundary-value SABR Call equation: \n\n";
+    std::cout << " Using Double Sweep algo with implicit Crank-Nicolson method\n\n";
+    std::cout << " Value type: " << typeid(double).name() << "\n\n";
+    std::cout << " U_t(s,a,t) = 0.5*a*a*s^(2b)*D^(2*(1-b))*U_ss(s,a,t) "
+                 " + 0.5*sig*sig*a*a*U_vv(s,v,t)"
+                 " + rho*sig*s^b*D^(1-b)*a*a*U_sv(s,a,t) + r*s*U_s(s,a,t)"
+                 " - r*U(s,a,t)\n\n";
+    std::cout << " where\n\n";
+    std::cout << " 50 < s < 200, 0 < v < 1, and 0 < t < 1,\n";
+    std::cout << " U(0,a,t) = 0 and  U_s(200,a,t) - 1 = 0, 0 < t < 1\n";
+    std::cout << " r*s*U_s(s,0,t) - rU(s,0,t) - U_t(s,0,t) = 0,"
+                 "0 < t < 1\n";
+    std::cout << " U(s,1,t) = s, 0 < t < 1\n";
+    std::cout << " U(s,a,T) = max(0,s - K), s in <50,200> \n\n";
+    std::cout << "============================================================\n";
+
+    // set up call option parameters:
+    auto const &strike = 100.0;
+    auto const &maturity = 1.0;
+    auto const &rate = 0.03;
+    auto const &sig_sig = 0.081;
+    auto const &rho = 0.6;
+    auto const &beta = 0.7;
+    // number of space subdivisions for spot:
+    std::size_t const Sd = 100;
+    // number of space subdivision for volatility:
+    std::size_t const Vd = 50;
+    // number of time subdivisions:
+    std::size_t const Td = 200;
+    // space Spot range:
+    auto const &spacex_range = std::make_shared<range>(50.0, 200.0);
+    // space Vol range:
+    auto const &spacey_range = std::make_shared<range>(0.0, 1.2);
+    // time range
+    auto const &time_range = std::make_shared<range>(0.0, maturity);
+    // discretization config:
+    auto const discretization_ptr =
+        std::make_shared<pde_discretization_config_2d>(spacex_range, spacey_range, Sd, Vd, time_range, Td);
+    // coeffs:
+    auto D = [=](double t, double s, double alpha) { return std::exp(-rate * (maturity - t)); };
+    auto a = [=](double t, double s, double alpha) {
+        return (0.5 * alpha * alpha * std::pow(s, 2.0 * beta) * std::pow(D(t, s, alpha), 2.0 * (1.0 - beta)));
+    };
+    auto b = [=](double t, double s, double alpha) { return (0.5 * sig_sig * sig_sig * alpha * alpha); };
+    auto c = [=](double t, double s, double alpha) {
+        return (rho * sig_sig * alpha * alpha * std::pow(s, beta) * std::pow(D(t, s, alpha), (1.0 - beta)));
+    };
+    auto d = [=](double t, double s, double alpha) { return (rate * s); };
+    auto e = [=](double t, double s, double alpha) { return 0.0; };
+    auto f = [=](double t, double s, double alpha) { return (-rate); };
+    auto const heat_coeffs_data_ptr = std::make_shared<heat_coefficient_data_config_2d>(a, b, c, d, e, f);
+    // terminal condition:
+    auto terminal_condition = [=](double s, double v) { return std::max(0.0, s - strike); };
+    auto const heat_init_data_ptr = std::make_shared<heat_initial_data_config_2d>(terminal_condition);
+    // heat data config:
+    auto const heat_data_ptr = std::make_shared<heat_data_config_2d>(heat_coeffs_data_ptr, heat_init_data_ptr);
+    // horizontal spot boundary conditions:
+    auto const &dirichlet_low = [=](double t, double v) { return 0.0; };
+    auto const &neumann_high = [=](double t, double s) { return -1.0; };
+    auto const &boundary_low_ptr = std::make_shared<dirichlet_boundary_2d>(dirichlet_low);
+    auto const &boundary_high_ptr = std::make_shared<neumann_boundary_2d>(neumann_high);
+    auto const &horizontal_boundary_pair = std::make_pair(boundary_low_ptr, boundary_high_ptr);
+    // vertical upper vol boundary:
+    auto const &dirichlet_high = [=](double t, double s) { return s; };
+    auto const &vertical_upper_boundary_ptr = std::make_shared<dirichlet_boundary_2d>(dirichlet_high);
+    // splitting method configuration:
+    auto const &splitting_config_ptr =
+        std::make_shared<splitting_method_config>(splitting_method_enum::DouglasRachford);
+    // grid config:
+    auto const alpha_scale = 3.;
+    auto const beta_scale = 50.;
+    auto const &grid_config_hints_ptr =
+        std::make_shared<grid_config_hints_2d>(strike, alpha_scale, beta_scale, grid_enum::Nonuniform);
+
+    // initialize pde solver
+    heston_equation pdesolver(heat_data_ptr, discretization_ptr, vertical_upper_boundary_ptr, horizontal_boundary_pair,
+                              splitting_config_ptr, grid_config_hints_ptr, host_bwd_dssolver_cn_solver_config_ptr);
+    // prepare container for solution:
+    matrix_3d solution(Sd, Vd, Td, double{});
+    // get the solution:
+    pdesolver.solve(solution);
+
+    std::stringstream ssn;
+    ssn << "outputs/xmls/" << test_name_num << ".xml";
+    std::string file_name_num{ssn.str()};
+    std::ofstream numerical(file_name_num);
+    xml(discretization_ptr, grid_config_hints_ptr, solution, numerical);
+    numerical.close();
+    std::cout << "Numerical solution has been saved to XML file: " << file_name_num << "\n";
+}
+
 void impl_sabr_barrier_double_sweep_cn_srf_xml()
 {
     const std::string test_name_num{"sabr_barrier_double_lu_cn_srf_numerical"};
@@ -2252,6 +2453,7 @@ void test_impl_sabr_double_sweep_cn_srf_xml()
     std::cout << "============================================================\n";
 
     impl_sabr_double_sweep_cn_srf_xml();
+    impl_sabr_double_sweep_cn_srf_xml_stepping();
     impl_sabr_barrier_double_sweep_cn_srf_xml();
 
     std::cout << "============================================================\n";

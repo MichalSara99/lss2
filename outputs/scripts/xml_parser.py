@@ -7,7 +7,8 @@ class xml_type(Enum):
     CURVE = 1
     SURFACE_ST = 2
     SURFACE_SS = 3
-    SURFACE_SSS = 4
+    SURFACE_SST = 4
+    SURFACE_SSS = 5
 
 
 class xml_parser:
@@ -28,6 +29,8 @@ class xml_parser:
                 return xml_type.SURFACE_ST
             elif type.string == 'SPACE_SPACE':
                 return xml_type.SURFACE_SS
+            elif type.string == 'SPACE_SPACE_TIME':
+                return xml_type.SURFACE_SST
             elif type.string == 'SPACE_SPACE_SPACE':
                 return xml_type.SURFACE_SSS
             else:
@@ -54,6 +57,16 @@ class xml_parser:
             # space_points_1
             x_1 = np.asarray([float(s) for s in pts[1].string.split(',')])
             return np.asarray([x_0,x_1])
+        elif self.type() == xml_type.SURFACE_SST:
+            # space_points_0
+            pts = self.bs_obj.find_all('POINTS')
+            x_0 = np.asarray([float(s) for s in pts[0].string.split(',')])
+            # space_points_1
+            x_1 = np.asarray([float(s) for s in pts[1].string.split(',')])
+            # time_points
+            pts = self.bs_obj.find('TIME_POINTS')
+            t = np.asarray([float(s) for s in pts.string.split(',')])
+            return np.asarray([x_0,x_1,t])
         elif self.type() == xml_type.SURFACE_SSS:
             # space_points_0
             pts = self.bs_obj.find_all('POINTS')
@@ -81,15 +94,16 @@ class xml_parser:
             if not clip_last_rows is None:
                 mat = mat[:, :-clip_last_rows]
             return mat
-        elif self.type() == xml_type.SURFACE_SSS :
+        elif (self.type() == xml_type.SURFACE_SST \
+                or self.type() == xml_type.SURFACE_SSS) :
             rows = int(self.bs_obj.find('ROW_SIZE').string)
             cols = int(self.bs_obj.find('COLUMN_SIZE').string)
             lays = int(self.bs_obj.find('LAYER_SIZE').string)
             pts = self.bs_obj.find('VALUES')
             values = np.asarray([float(s) for s in pts.string.split(',')])
-            mat = values.reshape((rows,cols,lays))
+            mat = values.reshape((lays,rows,cols))
             if not clip_last_rows is None:
-                mat = mat[:, :-clip_last_rows,:]
+                mat = mat[:, :,:-clip_last_rows]
             return mat
         else:
             return None
@@ -97,16 +111,16 @@ class xml_parser:
 
 
 # EXAMPLES:
+'''
+path = os.getcwd()
+files_path = "\\".join(path.split("\\")[:-1]) + "\\xmls"
+file_crv = files_path+"\\sabr_double_sweep_cn_srf_numerical_stepping.xml"
 
-#path = os.getcwd()
-#files_path = "\\".join(path.split("\\")[:-1]) + "\\xmls"
-#file_crv = files_path+"\\hhw_dsssolver_dr_cn_srf_numerical_uni.xml"
+crv = xml_parser(file_crv)
+crv_type = crv.type()
+crv_y = crv.ordinate()
+crv_x = crv.abscissa()
 
-#crv = xml_parser(file_crv)
-#crv_type = crv.type()
-#crv_y = crv.ordinate()
-#crv_x = crv.abscissa()
+np.shape(crv_y[199,:,:])
 
-#np.shape(crv_y[:,0,:])
-
-
+'''
