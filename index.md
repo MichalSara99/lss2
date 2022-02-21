@@ -5,7 +5,7 @@ It also has some output functionalities.
 
 ### Requirements
 
-LSS uses among others some CUDA solvers. Therefore NVidia's graphic device with CUDA library v11.3 (and above) is required.
+LSS2 uses among others some CUDA solvers. Therefore NVidia's graphic device with CUDA library v11.3 (and above) is required.
 
 ### Dependency
 
