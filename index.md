@@ -88,4 +88,4 @@ In this section I will try to describe how to work with the library on several e
 
 ### Support or Contact
 
-Having trouble with LSS2? You can open [issue](https://github.com/MichalSara99/lss/issues) or contact me on mail *michal.sara99@gmail.com* and I’ll try and help you sort it out.
+Having trouble with LSS2? You can open [issue](https://github.com/MichalSara99/lss2/issues) or contact me on mail *michal.sara99@gmail.com* and I’ll try and help you sort it out.
