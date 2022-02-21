@@ -1,6 +1,6 @@
 ## LSS2 (Linear System Solvers)
 
-LSS is C++ library written written in Visual Studio 2019 IDE (VS) on win-x64 platform using C++17 standard. It contains several linear system solvers plus some ODE and PDE solvers. It has been migrated from LSS using valarrays instead of vectors.
+LSS2 is C++ library written written in Visual Studio 2019 IDE (VS) on win-x64 platform using C++17 standard. It contains several linear system solvers plus some ODE and PDE solvers. It has been migrated from LSS using valarrays instead of vectors.
 It also has some output functionalities.
 
 ### Requirements
@@ -26,12 +26,12 @@ Open property pages for the newly created project and
 1. under **Debugging** tab set **Environment** to point to CUDA binaries folder (in my case it is *PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.3\bin*)
 2. under **VC++ Directories** tab set **Include Directories** to point to include folder of this library
 3. under **VC++ Directories** tab set **Library Directories** to point to lib folder of this library
-4. under **Linker->Input** tab add to **Additional Dependencies** *cusolver.lib*;*cusparse.lib*; *cublas.lib*; *cublasLt.lib*;*lss_debug.lib* (or *lss_release.lib* in case of Release configuration)
+4. under **Linker->Input** tab add to **Additional Dependencies** *cusolver.lib*;*cusparse.lib*; *cublas.lib*; *cublasLt.lib*;*lss2_debug.lib* (or *lss2_release.lib* in case of Release configuration)
 5. under **Linker->General** tab set **Additional Library Dependencies** to point to lib folder of this library
 6. under **CUDA Linker->General** tab set **Additional Library Directories** to point to lib folder of this library
 
 ##### 3.Step
-Place *lss_debug.dll*, *lss_debug.lib* (*lss_release.dll*, *lss_release.lib* in case of Release configuration) into your executable folder
+Place *lss2_debug.dll*, *lss2_debug.lib* (*lss2_release.dll*, *lss2_release.lib* in case of Release configuration) into your executable folder
 
 ##### 4.Step
 Now you should be ready to use the library. Test it using following example
@@ -88,4 +88,4 @@ In this section I will try to describe how to work with the library on several e
 
 ### Support or Contact
 
-Having trouble with LSS? You can open [issue](https://github.com/MichalSara99/lss/issues) or contact me on mail *michal.sara99@gmail.com* and I’ll try and help you sort it out.
+Having trouble with LSS2? You can open [issue](https://github.com/MichalSara99/lss/issues) or contact me on mail *michal.sara99@gmail.com* and I’ll try and help you sort it out.
