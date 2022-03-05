@@ -84,6 +84,7 @@ In this section I will try to describe how to work with the library on several e
 *  [1D Heat type equations](./heat-type-1d.html)
 *  [1D Wave type equations](./wave-type-1d.html)
 *  [2D Heston type equations](./heston-type-2d.html)
+*  [3D Heston-Hull-White type equations (experimental)](./hhw-type-3d.html)
 
 
 ### Support or Contact
