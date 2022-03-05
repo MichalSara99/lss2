@@ -28,7 +28,8 @@
 // TESTS FOR 2D PDE PROBLEMS:
 #include"unit_tests/pde_solvers/2d/lss_heston_equation_t.hpp"
 #include"unit_tests/pde_solvers/2d/lss_sabr_equation_t.hpp"
-
+// TESTS FOR EXPERIMENTAL 3D PDE PROBLEMS:
+#include"unit_tests/pde_solvers/3d/lss_hhw_equation_t.hpp"
 
 
 int main()
@@ -199,6 +200,11 @@ int main()
   // test_impl_sabr_equation_double_sweep_solver();
   // test_impl_sabr_equation_double_sweep_solver_stepping();
   // 
+  // ======================================================
+  // ================ lss_hhw_equation_t ==================
+  // ======================================================
+  test_impl_hhw_equation_tlu_dss_solver();
+  //
   // ======================================================
   // ===================== lss_xml_t ======================
   // ======================================================

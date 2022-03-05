@@ -312,6 +312,15 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     <ClCompile Include="pde_solvers\2d\heat_type\time_loop\lss_explicit_time_loop_2d.cpp" />
     <ClCompile Include="pde_solvers\2d\heat_type\time_loop\lss_implicit_time_loop_2d.cpp" />
     <ClCompile Include="pde_solvers\2d\heat_type\transformation\lss_heston_boundary_transform.cpp" />
+    <ClCompile Include="pde_solvers\experimental\3d\heat_type\boundary_solver\lss_hhw_explicit_boundary_solver.cpp" />
+    <ClCompile Include="pde_solvers\experimental\3d\heat_type\boundary_solver\lss_hhw_implicit_boundary_solver.cpp" />
+    <ClCompile Include="pde_solvers\experimental\3d\heat_type\implicit_coefficients\lss_heat_coefficients_3d.cpp" />
+    <ClCompile Include="pde_solvers\experimental\3d\heat_type\lss_hhw_equation.cpp" />
+    <ClCompile Include="pde_solvers\experimental\3d\heat_type\lss_hhw_equation_implicit_kernel.cpp" />
+    <ClCompile Include="pde_solvers\experimental\3d\heat_type\solver_method\splitting\lss_heat_douglas_rachford_method_3d.cpp" />
+    <ClCompile Include="pde_solvers\experimental\3d\heat_type\solver_method\splitting\lss_heat_splitting_method_3d.cpp" />
+    <ClCompile Include="pde_solvers\experimental\3d\heat_type\time_loop\lss_implicit_time_loop_3d.cpp" />
+    <ClCompile Include="pde_solvers\experimental\3d\heat_type\transformation\lss_hhw_boundary_transform.cpp" />
     <ClCompile Include="pde_solvers\lss_heat_data_config.cpp" />
     <ClCompile Include="pde_solvers\lss_heat_solver_config.cpp" />
     <ClCompile Include="pde_solvers\lss_implicit_pde_scheme.cpp" />
@@ -350,6 +359,7 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     <ClCompile Include="unit_tests\pde_solvers\1d\lss_pure_wave_equation_t.cpp" />
     <ClCompile Include="unit_tests\pde_solvers\2d\lss_heston_equation_t.cpp" />
     <ClCompile Include="unit_tests\pde_solvers\2d\lss_sabr_equation_t.cpp" />
+    <ClCompile Include="unit_tests\pde_solvers\3d\lss_hhw_equation_t.cpp" />
     <ClCompile Include="unit_tests\sparse_solvers\lss_core_cuda_solver_t.cpp" />
     <ClCompile Include="unit_tests\sparse_solvers\lss_core_sor_solver_cuda_t.cpp" />
     <ClCompile Include="unit_tests\sparse_solvers\lss_core_sor_solver_t.cpp" />
@@ -499,6 +509,15 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     <ClInclude Include="pde_solvers\2d\heat_type\time_loop\lss_explicit_time_loop_2d.hpp" />
     <ClInclude Include="pde_solvers\2d\heat_type\time_loop\lss_implicit_time_loop_2d.hpp" />
     <ClInclude Include="pde_solvers\2d\heat_type\transformation\lss_heston_boundary_transform.hpp" />
+    <ClInclude Include="pde_solvers\experimental\3d\heat_type\boundary_solver\lss_hhw_explicit_boundary_solver.hpp" />
+    <ClInclude Include="pde_solvers\experimental\3d\heat_type\boundary_solver\lss_hhw_implicit_boundary_solver.hpp" />
+    <ClInclude Include="pde_solvers\experimental\3d\heat_type\implicit_coefficients\lss_heat_coefficients_3d.hpp" />
+    <ClInclude Include="pde_solvers\experimental\3d\heat_type\lss_hhw_equation.hpp" />
+    <ClInclude Include="pde_solvers\experimental\3d\heat_type\lss_hhw_equation_implicit_kernel.hpp" />
+    <ClInclude Include="pde_solvers\experimental\3d\heat_type\solver_method\splitting\lss_heat_douglas_rachford_method_3d.hpp" />
+    <ClInclude Include="pde_solvers\experimental\3d\heat_type\solver_method\splitting\lss_heat_splitting_method_3d.hpp" />
+    <ClInclude Include="pde_solvers\experimental\3d\heat_type\time_loop\lss_implicit_time_loop_3d.hpp" />
+    <ClInclude Include="pde_solvers\experimental\3d\heat_type\transformation\lss_hhw_boundary_transform.hpp" />
     <ClInclude Include="pde_solvers\lss_heat_data_config.hpp" />
     <ClInclude Include="pde_solvers\lss_heat_solver_config.hpp" />
     <ClInclude Include="pde_solvers\lss_implicit_pde_scheme.hpp" />
@@ -542,6 +561,7 @@ copy /Y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)lib\$(TargetName).lib"</C
     <ClInclude Include="unit_tests\pde_solvers\1d\lss_pure_wave_equation_t.hpp" />
     <ClInclude Include="unit_tests\pde_solvers\2d\lss_heston_equation_t.hpp" />
     <ClInclude Include="unit_tests\pde_solvers\2d\lss_sabr_equation_t.hpp" />
+    <ClInclude Include="unit_tests\pde_solvers\3d\lss_hhw_equation_t.hpp" />
     <ClInclude Include="unit_tests\sparse_solvers\lss_core_cuda_solver_t.hpp" />
     <ClInclude Include="unit_tests\sparse_solvers\lss_core_sor_solver_cuda_t.hpp" />
     <ClInclude Include="unit_tests\sparse_solvers\lss_core_sor_solver_t.hpp" />
