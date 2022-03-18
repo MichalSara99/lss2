@@ -84,7 +84,7 @@ class surface_gen:
 
 path = os.getcwd()
 files_path = "\\".join(path.split("\\")[:-1]) + "\\xmls"
-file_crv = files_path+"\\heston_upoutcall_barrier_thomas_lu_cn_dr_srf_stepping_numerical.xml"
+file_crv = files_path+"\\hhw_dsssolver_dr_0_66_cn_srf_numerical.xml"
 
 srf = surface_gen(file_crv)
 srf.set_x_label('Spot')
@@ -98,15 +98,16 @@ crv = parser.xml_parser(file_crv)
 crv_type = crv.type()
 crv_y = crv.ordinate()
 crv_x = crv.abscissa()
-xy_plane = np.asarray([crv_x[0],crv_x[1]])
+xy_plane = np.asarray([crv_x[2],crv_x[1][1:]])
+
 
 srf = surface_gen(file_crv)
-srf.set_x_label('Spot')
+srf.set_x_label('Rate')
 srf.set_y_label('Volatility')
-srf.set_z_label('Call option Price')
-srf.set_title('SABR PDE (Double Sweeep, nonuniform grid)')
+srf.set_z_label('Call option Price for spot: '+ str(crv_x[0][20]))
+srf.set_title('Heston-Hull-White PDE (Double Sweeep, uniform grid)')
 
-srf.plot_2d(xy_plane,crv_y[180,:,:-3],3)
+srf.plot_2d(xy_plane,crv_y[:,20,1:])
 
 np.shape(crv_y)
 

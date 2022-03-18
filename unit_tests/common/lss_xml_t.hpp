@@ -100,11 +100,11 @@ extern void impl_heston_thomas_lu_hw_cn_srf_xml();
 
 extern void test_impl_heston_thomas_lu_hw_cn_srf_xml();
 
-// extern void impl_hhw_dsssolver_dr_cn_srf_xml();
-//
-// extern void impl_hhw_dsssolver_dr_0_66_cn_srf_xml();
-//
-// extern void test_impl_hhw_dsssolver_dr_cn_srf_xml();
+extern void impl_hhw_dsssolver_dr_cn_srf_xml();
+
+extern void impl_hhw_dsssolver_dr_0_66_cn_srf_xml();
+
+extern void test_impl_hhw_dsssolver_dr_cn_srf_xml();
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///

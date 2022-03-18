@@ -22,6 +22,7 @@
 #include "../../../../../../sparse_solvers/tridiagonal/lss_tridiagonal_solver.hpp"
 #include "../../implicit_coefficients/lss_heat_coefficients_3d.hpp"
 #include "lss_heat_splitting_method_3d.hpp"
+#include <future>
 
 namespace lss_pde_solvers
 {

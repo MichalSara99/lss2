@@ -122,3 +122,21 @@ Heston equation from explicit solver
 
 SABR dynamics
 ![SABR dynamics](/outputs/pics/sabr_tlu_dr_call_nonuniform_grid_stepping.png)
+
+Heston-Hull-White dynamics for specific rate r_0
+![HHW dynamics](/outputs/pics/hhw_sv_r0_uniform_grid.png)
+
+Heston-Hull-White dynamics for specific rate r_1
+![HHW dynamics](/outputs/pics/hhw_sv_r1_uniform_grid.png)
+
+Heston-Hull-White dynamics for specific vol v_0
+![HHW dynamics](/outputs/pics/hhw_sr_v0_uniform_grid.png)
+
+Heston-Hull-White dynamics for specific vol v_1
+![HHW dynamics](/outputs/pics/hhw_sr_v1_uniform_grid.png)
+
+Heston-Hull-White dynamics for specific vol s_0
+![HHW dynamics](/outputs/pics/hhw_rv_s0_uniform_grid.png)
+
+Heston-Hull-White dynamics for specific vol s_1
+![HHW dynamics](/outputs/pics/hhw_rv_s1_uniform_grid.png)

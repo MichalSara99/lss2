@@ -2,6 +2,8 @@
 
 #include "../../../../../../common/lss_macros.hpp"
 #include "../../../../../../discretization/lss_grid.hpp"
+//#include <future>
+#include <omp.h>
 
 namespace lss_pde_solvers
 {
@@ -162,10 +164,6 @@ void douglas_rachford_3d_rhs::rhs(heat_coefficients_3d_ptr const &cfs, grid_conf
     }
 }
 
-void heat_douglas_rachford_method_3d::initialize(bool is_heat_source_set)
-{
-}
-
 void heat_douglas_rachford_method_3d::split_0(double const &y, double const &z, double const &time, container_t &low,
                                               container_t &diag, container_t &high)
 {
@@ -220,6 +218,10 @@ heat_douglas_rachford_method_3d::~heat_douglas_rachford_method_3d()
 {
 }
 
+void heat_douglas_rachford_method_3d::initialize(bool is_heat_source_set)
+{
+}
+
 void heat_douglas_rachford_method_3d::solve(matrix_3d const &prev_solution, boundary_3d_pair const &x_boundary_pair,
                                             boundary_3d_pair const &y_boundary_pair,
                                             boundary_3d_pair const &z_boundary_pair, double const &time,
@@ -236,7 +238,7 @@ void heat_douglas_rachford_method_3d::solve(matrix_3d const &prev_solution, boun
     rhs_.resize(coefficients_->space_size_x_);
     double x{}, y{}, z{};
     const std::size_t total_yz = coefficients_->space_size_y_ * coefficients_->space_size_z_;
-    // TODO: this may be paralelised ?
+    //  TODO: this may be paralelised ?
     for (std::size_t t = 0, j = 0, k = 0; t < total_yz; ++t)
     {
         j = t / coefficients_->space_size_z_;
@@ -254,22 +256,6 @@ void heat_douglas_rachford_method_3d::solve(matrix_3d const &prev_solution, boun
         solvery1_ptr_->solve(x_boundary_pair, solution_v, time, y, z);
         inter_solution_1.column_array(j, k) = solution_v;
     }
-
-    // for (std::size_t j = 1; j < coefficients_->space_size_y_ - 1; ++j)
-    //{
-    //     y = grid_3d::value_2(grid_cfg_, j);
-    //     for (std::size_t k = 1; k < coefficients_->space_size_z_ - 1; ++k)
-    //     {
-    //         z = grid_3d::value_3(grid_cfg_, k);
-    //         split_0(y, z, time, low_, diag_, high_);
-    //         douglas_rachford_3d_rhs::rhs_intermed_1(coefficients_, grid_cfg_, j, y, k, z, prev_solution, time, rhs_);
-    //         solvery1_ptr_->set_diagonals(low_, diag_, high_);
-    //         solvery1_ptr_->set_rhs(rhs_);
-    //         solvery1_ptr_->solve(x_boundary_pair, solution_v, time, y, z);
-    //         inter_solution_1.column_array(y, z) = solution_v;
-    //     }
-    // }
-
     // 3D container for intermediate solution:
     matrix_3d inter_solution_2(coefficients_->space_size_x_, coefficients_->space_size_y_, coefficients_->space_size_z_,
                                double{});
@@ -281,7 +267,6 @@ void heat_douglas_rachford_method_3d::solve(matrix_3d const &prev_solution, boun
     high_.resize(coefficients_->space_size_y_);
     rhs_.resize(coefficients_->space_size_y_);
     const std::size_t total_xz = coefficients_->space_size_x_ * coefficients_->space_size_z_;
-    // TODO: this may be paralelised ?
     for (std::size_t t = 0, i = 0, k = 0; t < total_xz; ++t)
     {
         i = t / coefficients_->space_size_z_;
@@ -300,22 +285,6 @@ void heat_douglas_rachford_method_3d::solve(matrix_3d const &prev_solution, boun
         solvery2_ptr_->solve(y_boundary_pair, solution_v, time, x, z);
         inter_solution_2.row_array(i, k) = solution_v;
     }
-
-    // for (std::size_t i = 1; i < coefficients_->space_size_x_ - 1; ++i)
-    //{
-    //     x = grid_3d::value_1(grid_cfg_, i);
-    //     for (std::size_t k = 1; k < coefficients_->space_size_z_ - 1; ++k)
-    //     {
-    //         z = grid_3d::value_3(grid_cfg_, k);
-    //         split_1(x, z, time, low_, diag_, high_);
-    //         douglas_rachford_3d_rhs::rhs_intermed_2(coefficients_, grid_cfg_, i, x, k, z, prev_solution,
-    //                                                 inter_solution_1, time, rhs_);
-    //         solvery2_ptr_->set_diagonals(low_, diag_, high_);
-    //         solvery2_ptr_->set_rhs(rhs_);
-    //         solvery2_ptr_->solve(y_boundary_pair, solution_v, time, x, z);
-    //         inter_solution_2.row_array(i, k) = solution_v;
-    //     }
-    // }
 
     // 1D container for final solution:
     solution_v.resize(coefficients_->space_size_z_);
@@ -343,22 +312,6 @@ void heat_douglas_rachford_method_3d::solve(matrix_3d const &prev_solution, boun
         solveru_ptr_->solve(z_boundary_pair, solution_v, time, x, y);
         solution.layer_array(i, j) = solution_v;
     }
-
-    // for (std::size_t i = 1; i < coefficients_->space_size_x_ - 1; ++i)
-    //{
-    //     x = grid_3d::value_1(grid_cfg_, i);
-    //     for (std::size_t j = 1; j < coefficients_->space_size_y_ - 1; ++j)
-    //     {
-    //         y = grid_3d::value_2(grid_cfg_, j);
-    //         split_2(x, y, time, low_, diag_, high_);
-    //         douglas_rachford_3d_rhs::rhs(coefficients_, grid_cfg_, i, x, j, y, prev_solution, inter_solution_2, time,
-    //                                      rhs_);
-    //         solveru_ptr_->set_diagonals(low_, diag_, high_);
-    //         solveru_ptr_->set_rhs(rhs_);
-    //         solveru_ptr_->solve(z_boundary_pair, solution_v, time, x, y);
-    //         solution.layer_array(i, j) = solution_v;
-    //     }
-    // }
 }
 
 void heat_douglas_rachford_method_3d::solve(matrix_3d const &prev_solution, boundary_3d_pair const &x_boundary_pair,

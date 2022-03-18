@@ -203,7 +203,7 @@ int main()
   // ======================================================
   // ================ lss_hhw_equation_t ==================
   // ======================================================
-  test_impl_hhw_equation_tlu_dss_solver();
+  // test_impl_hhw_equation_tlu_dss_solver();
   //
   // ======================================================
   // ===================== lss_xml_t ======================
@@ -230,6 +230,8 @@ int main()
   // test_expl_heston_device_euler_srf_xml();
   // test_expl_sabr_host_euler_srf_xml();
   // test_expl_sabr_device_euler_srf_xml();
+  test_impl_hhw_dsssolver_dr_cn_srf_xml();
+
 
     std::cin.get();
     std::cin.get();

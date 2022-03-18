@@ -307,33 +307,32 @@ void impl_hhw_equation_dsssolver_solver_crank_nicolson()
 
     // set up call option parameters:
     auto const &strike = 100.0;
-    auto const &maturity = 0.25;
-    auto const &v_sig = 0.5;
-    auto const &v_kappa = 2.5;
-    auto const &v_theta = 0.06;
-    auto const &rho_12 = -0.1;
-    auto const &rho_13 = -0.3;
-    auto const &rho_23 = 0.2;
-    auto const &c_1 = 0.005;
-    auto const &c_2 = 0.001;
-    auto const &c_3 = 2.3;
-    auto const &r_a = 0.15;
-    auto const &r_sig = 0.1;
-
+    auto const &maturity = 1.0;
+    auto const &v_sig = 0.8;
+    auto const &v_kappa = 3.0;
+    auto const &v_theta = 0.2;
+    auto const &rho_12 = 0.6;
+    auto const &rho_13 = 0.2;
+    auto const &rho_23 = 0.4;
+    auto const &c_1 = 0.3;
+    auto const &c_2 = 0.01;
+    auto const &c_3 = 0.02;
+    auto const &r_a = 0.2;
+    auto const &r_sig = 0.05;
     // number of space subdivisions for spot:
-    std::size_t const Sd = 75;
+    std::size_t const Sd = 60;
     // number of space subdivision for volatility:
-    std::size_t const Vd = 35;
+    std::size_t const Vd = 32;
     // number of space subdivision for rate:
-    std::size_t const Rd = 35;
+    std::size_t const Rd = 32;
     // number of time subdivisions:
-    std::size_t const Td = 600;
+    std::size_t const Td = 500;
     // space Spot range:
     auto const &spacex_range = std::make_shared<range>(50.0, 200.0);
     // space Vol range:
-    auto const &spacey_range = std::make_shared<range>(0.05, 1.0);
+    auto const &spacey_range = std::make_shared<range>(0.0, 1.0);
     // space Rate range:
-    auto const &spacez_range = std::make_shared<range>(0.001, 0.01);
+    auto const &spacez_range = std::make_shared<range>(0.12, 0.21);
     // time range
     auto const &time_range = std::make_shared<range>(0.0, maturity);
     // discretization config:
